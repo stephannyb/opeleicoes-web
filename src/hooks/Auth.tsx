@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import React, { createContext, useCallback, useState, useContext } from 'react';
 import api from '../services/api';
 
@@ -23,7 +23,7 @@ interface AuthContextData {
 
 interface AuthState {
   token: string;
-  // user: UserData;
+  user: UserData;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -31,13 +31,13 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@GoBarber:token');
-    // const user = localStorage.getItem('@GoBarber:user');
+    const user = localStorage.getItem('@GoBarber:user');
 
-    // if (token && user) {
-    if (token) {
+    if (token && user) {
+      // if (token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
-      // return { token, user: JSON.parse(user) };
-      return { token };
+      return { token, user: JSON.parse(user) };
+      // return { token };
     }
 
     return {} as AuthState;
@@ -50,27 +50,18 @@ export const AuthProvider: React.FC = ({ children }) => {
     // });
 
     // const { token, user } = response.data;
-    // localStorage.setItem('@GoBarber:token', token);
-    // localStorage.setItem('@GoBarber:user', JSON.stringify(user));
-    // api.defaults.headers.authorization = `Bearer ${token}`;
-    // setData({ token, user });
+    const token = 'asdasdasdjoasçdljksçajdaçl';
+    const user = {
+      id: '1',
+      email: 'email@email.com',
+      name: 'Nome',
+      avatar_url: 'adasdasd',
+    };
 
-    const response = await axios
-      .get('https://rota.pm.rn.gov.br/sanctum/csrf-cookie')
-      .then(() => {
-        return axios
-          .post(`https://rota.pm.rn.gov.br/api/login`, { cpf, password })
-          .then(res => {
-            return res.data;
-          })
-          .catch(err => {
-            // throw new AppError('Incorrect email or password', 401);
-            console.log('post error: ', err);
-          });
-      });
-
-    const { token } = response;
-    setData(token);
+    localStorage.setItem('@GoBarber:token', token);
+    localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+    api.defaults.headers.authorization = `Bearer ${token}`;
+    setData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {
@@ -83,7 +74,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     (user: UserData) => {
       setData({
         token: data.token,
-        // user,
+        user,
       });
       localStorage.setItem('@GoBarber:user', JSON.stringify(user));
     },
@@ -92,8 +83,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      // value={{ user: data.user, signIn, signOut, updateUser }}
-      value={{ signIn, signOut, updateUser }}
+      value={{ user: data.user, signIn, signOut, updateUser }}
     >
       {children}
     </AuthContext.Provider>
