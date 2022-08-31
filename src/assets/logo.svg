@@ -1,0 +1,12 @@
+<svg width="231" height="134" xmlns="http://www.w3.org/2000/svg" fill="none">
+ <g>
+  <title>Layer 1</title>
+  <rect y="106.073" width="230.033" height="2.00226" fill="#FF9000" id="svg_23"/>
+  <rect y="25.9825" width="230.033" height="2.00226" fill="#FF9000" id="svg_24"/>
+  <ellipse rx="3.01354" ry="3.00339" transform="matrix(1, 0, 0, -1, 210.947, 67.0288)" fill="#999591" id="svg_33"/>
+  <ellipse rx="3.01354" ry="3.00339" transform="matrix(1 0 0 -1 19.0857 67.0288)" fill="#999591" id="svg_34"/>
+  <text fill="#999591" x="69.04848" y="21.19362" id="svg_35" stroke-width="0" font-size="16" font-family="'Exo'" text-anchor="start" xml:space="preserve">Operação</text>
+  <text style="cursor: move;" fill="#ffffff" stroke-width="0" x="27.18989" y="72.80644" id="svg_36" font-size="24" font-family="'Exo'" text-anchor="start" xml:space="preserve" transform="matrix(1.06331, 0, 0, 1.1619, -1.86936, -7.9162)">Eleições 2022</text>
+ </g>
+
+</svg>
