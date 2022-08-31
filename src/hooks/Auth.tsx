@@ -1,6 +1,8 @@
-// import axios from 'axios';
+/* eslint-disable no-shadow */
+import axios from 'axios';
 import React, { createContext, useCallback, useState, useContext } from 'react';
 import api from '../services/api';
+// import ApiSisgp from '../services/sisgpAPI';
 
 interface SignInCredentials {
   cpf: string;
@@ -30,14 +32,12 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@GoBarber:token');
-    const user = localStorage.getItem('@GoBarber:user');
+    const token = localStorage.getItem('@opEleicoes:token');
+    const user = localStorage.getItem('@opEleicoes:user');
 
     if (token && user) {
-      // if (token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
       return { token, user: JSON.parse(user) };
-      // return { token };
     }
 
     return {} as AuthState;
@@ -50,7 +50,27 @@ export const AuthProvider: React.FC = ({ children }) => {
     // });
 
     // const { token, user } = response.data;
-    const token = 'asdasdasdjoasçdljksçajdaçl';
+    const response = await axios
+      .get('https://rota.pm.rn.gov.br/sanctum/csrf-cookie')
+      .then(() => {
+        return axios
+          .post(`https://rota.pm.rn.gov.br/api/login`, { cpf, password })
+          .then(res => {
+            return res.data.data;
+          })
+          .catch(() => {
+            throw new Error('CPF ou Senha Incorreto(a)');
+          });
+      });
+
+    const { token } = response;
+
+    // const apiSisgp = new ApiSisgp();
+    // const tokenSisgp = await apiSisgp.getToken(cpf);
+    // const userSisgp = await apiSisgp.getPolicial(cpf);
+    // console.log({ userSisgp });
+
+    // const token = 'asdasdasdjoasçdljksçajdaçl';
     const user = {
       id: '1',
       email: 'email@email.com',
@@ -58,15 +78,15 @@ export const AuthProvider: React.FC = ({ children }) => {
       avatar_url: 'adasdasd',
     };
 
-    localStorage.setItem('@GoBarber:token', token);
-    localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+    localStorage.setItem('@opEleicoes:token', token);
+    localStorage.setItem('@opEleicoes:user', JSON.stringify(user));
     api.defaults.headers.authorization = `Bearer ${token}`;
     setData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@GoBarber:token');
-    localStorage.removeItem('@GoBarber:user');
+    localStorage.removeItem('@opEleicoes:token');
+    localStorage.removeItem('@opEleicoes:user');
     setData({} as AuthState);
   }, []);
 
@@ -76,7 +96,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         token: data.token,
         user,
       });
-      localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+      localStorage.setItem('@opEleicoes:user', JSON.stringify(user));
     },
     [data.token],
   );
