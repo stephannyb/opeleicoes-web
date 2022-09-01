@@ -43,7 +43,7 @@ const SignIn: React.FC = () => {
 
         await signIn({ cpf: data.cpf, password: data.password });
 
-        history.push('/dashboard');
+        history.push('/relatorio');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -55,7 +55,7 @@ const SignIn: React.FC = () => {
         addToast({
           title: 'Erro na autenticação',
           type: 'error',
-          description: 'Ocorreu um erro ao fazer logon',
+          description: 'Credenciais Invalidas',
         });
       }
     },
