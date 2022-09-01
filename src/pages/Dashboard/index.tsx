@@ -1,19 +1,17 @@
-import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import React, { useRef } from 'react';
 import { FiPower } from 'react-icons/fi';
 import Select from 'react-select';
+import logoImg from '../../assets/logo.svg';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-
+import { useAuth } from '../../hooks/Auth';
 import { Container, Content, Header, HeaderContent, Schedule } from './styles';
 
-import logoImg from '../../assets/logo.svg';
-import { useAuth } from '../../hooks/Auth';
-
 const Dashboard: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
+  const formRef = useRef(null);
   const { signOut } = useAuth();
+
   const options1 = [
     { value: 'CPC', label: 'CPC' },
     { value: 'CPM', label: 'CPM' },
@@ -22,33 +20,34 @@ const Dashboard: React.FC = () => {
     { value: 'CPRIII', label: 'CPR III' },
     { value: 'CPRIV', label: 'CPR IV' },
   ];
+
   const options2 = [
-    { value: '1ºBPM', label: '1ºBPM' },
-    { value: '2ºBPM', label: '2ºBPM' },
-    { value: '3ºBPM', label: '3ºBPM' },
-    { value: '4ºBPM', label: '4ºBPM' },
-    { value: '5ºBPM', label: '5ºBPM' },
-    { value: '6ºBPM', label: '6ºBPM' },
-    { value: '7ºBPM', label: '7ºBPM' },
-    { value: '8ºBPM', label: '8ºBPM' },
-    { value: '9ºBPM', label: '9ºBPM' },
-    { value: '10ºBPM', label: '10ºBPM' },
-    { value: '11ºBPM', label: '11ºBPM' },
-    { value: '12ºBPM', label: '12ºBPM' },
-    { value: '13ºBPM', label: '13ºBPM' },
-    { value: '14ºBPM', label: '14ºBPM' },
-    { value: '15ºBPM', label: '15ºBPM' },
-    { value: '16ºBPM', label: '16ºBPM' },
-    { value: '1ªCIPM', label: '1ªCIPM' },
-    { value: '2ªCIPM', label: '2ªCIPM' },
-    { value: '3ªCIPM', label: '3ªCIPM' },
-    { value: '4ªCIPM', label: '4ªCIPM' },
-    { value: '5ªCIPM', label: '5ªCIPM' },
-    { value: '6ªCIPM', label: '6ªCIPM' },
-    { value: '7ªCIPM', label: '7ªCIPM' },
-    { value: '8ªCIPM', label: '8ªCIPM' },
-    { value: '9ªCIPM', label: '9ªCIPM' },
-    { value: '10ªCIPM', label: '10ªCIPM' },
+    { value: '1º BPM', label: '1º BPM' },
+    { value: '2º BPM', label: '2º BPM' },
+    { value: '3º BPM', label: '3º BPM' },
+    { value: '4º BPM', label: '4º BPM' },
+    { value: '5º BPM', label: '5º BPM' },
+    { value: '6º BPM', label: '6º BPM' },
+    { value: '7º BPM', label: '7º BPM' },
+    { value: '8º BPM', label: '8º BPM' },
+    { value: '9º BPM', label: '9º BPM' },
+    { value: '10º BPM', label: '10º BPM' },
+    { value: '11º BPM', label: '11º BPM' },
+    { value: '12º BPM', label: '12º BPM' },
+    { value: '13º BPM', label: '13º BPM' },
+    { value: '14º BPM', label: '14º BPM' },
+    { value: '15º BPM', label: '15º BPM' },
+    { value: '16º BPM', label: '16º BPM' },
+    { value: '1ª CIPM', label: '1ª CIPM' },
+    { value: '2ª CIPM', label: '2ª CIPM' },
+    { value: '3ª CIPM', label: '3ª CIPM' },
+    { value: '4ª CIPM', label: '4ª CIPM' },
+    { value: '5ª CIPM', label: '5ª CIPM' },
+    { value: '6ª CIPM', label: '6ª CIPM' },
+    { value: '7ª CIPM', label: '7ª CIPM' },
+    { value: '8ª CIPM', label: '8ª CIPM' },
+    { value: '9ª CIPM', label: '9ª CIPM' },
+    { value: '10ª CIPM', label: '10ª CIPM' },
   ];
 
   const options3 = [
@@ -68,6 +67,59 @@ const Dashboard: React.FC = () => {
     { value: '14', label: '14ª' },
     { value: '15', label: '15ª' },
     { value: '16', label: '16ª' },
+    { value: '17', label: '17ª' },
+    { value: '18', label: '18ª' },
+    { value: '19', label: '19ª' },
+    { value: '20', label: '20ª' },
+    { value: '21', label: '21ª' },
+    { value: '22', label: '22ª' },
+    { value: '23', label: '23ª' },
+    { value: '24', label: '24ª' },
+    { value: '25', label: '25ª' },
+    { value: '26', label: '26ª' },
+    { value: '27', label: '27ª' },
+    { value: '28', label: '28ª' },
+    { value: '29', label: '29ª' },
+    { value: '30', label: '30ª' },
+    { value: '31', label: '31ª' },
+    { value: '32', label: '32ª' },
+    { value: '33', label: '33ª' },
+    { value: '34', label: '34ª' },
+    { value: '35', label: '35ª' },
+    { value: '36', label: '36ª' },
+    { value: '37', label: '37ª' },
+    { value: '38', label: '38ª' },
+    { value: '39', label: '39ª' },
+    { value: '40', label: '40ª' },
+    { value: '41', label: '41ª' },
+    { value: '42', label: '42ª' },
+    { value: '43', label: '43ª' },
+    { value: '44', label: '44ª' },
+    { value: '45', label: '45ª' },
+    { value: '46', label: '46ª' },
+    { value: '47', label: '47ª' },
+    { value: '48', label: '48ª' },
+    { value: '49', label: '49ª' },
+    { value: '50', label: '50ª' },
+    { value: '51', label: '51ª' },
+    { value: '52', label: '52ª' },
+    { value: '53', label: '53ª' },
+    { value: '54', label: '54ª' },
+    { value: '55', label: '55ª' },
+    { value: '56', label: '56ª' },
+    { value: '57', label: '57ª' },
+    { value: '58', label: '58ª' },
+    { value: '59', label: '59ª' },
+    { value: '60', label: '60ª' },
+    { value: '61', label: '61ª' },
+    { value: '62', label: '62ª' },
+    { value: '63', label: '63ª' },
+    { value: '64', label: '64ª' },
+    { value: '65', label: '65ª' },
+    { value: '66', label: '66ª' },
+    { value: '67', label: '67ª' },
+    { value: '68', label: '68ª' },
+    { value: '69', label: '69ª' },
   ];
 
   const options4 = [
@@ -249,11 +301,32 @@ const Dashboard: React.FC = () => {
   ];
 
   const options6 = [
-    { value: 'Boca de urna', label: 'Boca de urna' },
-    { value: 'Eleitoral', label: 'Eleitoral' },
+    { value: 'Boca De Urna', label: 'Boca De Urna' },
+    {
+      value: 'Transporte Ilegal de Eleitores',
+      label: 'Transporte Ilegal de Eleitores',
+    },
+    { value: 'Compra de Votos', label: 'Compra de Votos' },
+    { value: 'Propaganda Ilegal', label: 'Propaganda Ilegal' },
+    {
+      value: 'Integrante da Mesa com Camisa de Partido',
+      label: 'Integrante da Mesa com Camisa de Partido',
+    },
+    { value: 'Apreensão de Material', label: 'Apreensão de Material' },
+    { value: 'Celular em Urna', label: 'Celular em Urna' },
+    { value: 'Desordem', label: 'Desordem' },
+    { value: 'Desacato', label: 'Desacato' },
+    { value: 'Desobediência', label: 'Desobediência' },
+    { value: 'Porte Ilegal de Arma', label: 'Porte Ilegal de Arma' },
+    { value: 'Outro', label: 'Outro' },
   ];
 
-  const handlesubmit = (data: any, e: any) => console.log(data, e);
+  const handlesubmit = (data: any) => {
+    console.log(data);
+  };
+  const handleChange = (value: any) => {
+    console.log(value.label);
+  };
 
   return (
     <Container>
@@ -274,6 +347,7 @@ const Dashboard: React.FC = () => {
               <strong>Grande Comando:</strong>
               <Select
                 options={options1}
+                onChange={handleChange}
                 theme={theme => ({
                   ...theme,
                   borderRadius: 10,
@@ -290,6 +364,7 @@ const Dashboard: React.FC = () => {
               <strong>OPM:</strong>
               <Select
                 options={options2}
+                onChange={handleChange}
                 theme={theme => ({
                   ...theme,
                   borderRadius: 10,
@@ -306,6 +381,7 @@ const Dashboard: React.FC = () => {
               <strong>Zona:</strong>
               <Select
                 options={options3}
+                onChange={handleChange}
                 theme={theme => ({
                   ...theme,
                   borderRadius: 10,
@@ -322,6 +398,7 @@ const Dashboard: React.FC = () => {
               <strong>Cidade:</strong>
               <Select
                 options={options4}
+                onChange={handleChange}
                 theme={theme => ({
                   ...theme,
                   borderRadius: 10,
@@ -338,6 +415,7 @@ const Dashboard: React.FC = () => {
               <strong>Tipo de Ocorrência:</strong>
               <Select
                 options={options5}
+                onChange={handleChange}
                 theme={theme => ({
                   ...theme,
                   borderRadius: 10,
@@ -354,6 +432,7 @@ const Dashboard: React.FC = () => {
               <strong>Ocorrência:</strong>
               <Select
                 options={options6}
+                onChange={handleChange}
                 theme={theme => ({
                   ...theme,
                   borderRadius: 10,
