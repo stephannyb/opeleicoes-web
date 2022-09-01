@@ -1,5 +1,6 @@
 import { Form } from '@unform/web';
 import React, { useRef } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { FiPower } from 'react-icons/fi';
 import Select from 'react-select';
 import logoImg from '../../assets/logo.svg';
@@ -321,11 +322,21 @@ const Dashboard: React.FC = () => {
     { value: 'Outro', label: 'Outro' },
   ];
 
+  const options7 = [
+    { value: 'Conduzido a Delegacia', label: 'Conduzido a Delegacia' },
+    {
+      value: 'Conduzido ao Juiz Eleitoral',
+      label: 'Conduzido ao Juiz Eleitoral',
+    },
+    { value: 'Prisão em Flagrante', label: 'Prisão em Flagrante' },
+    { value: 'Resolvido no Local', label: 'Resolvido no Local' },
+    { value: 'Outro', label: 'Outro' },
+  ];
+
+  const { handleSubmit, control } = useForm<any>();
+
   const handlesubmit = (data: any) => {
     console.log(data);
-  };
-  const handleChange = (value: any) => {
-    console.log(value.label);
   };
 
   return (
@@ -342,112 +353,261 @@ const Dashboard: React.FC = () => {
         <Schedule>
           <h1>Operação Eleições 2022 - 1º TURNO</h1>
 
-          <Form onSubmit={handlesubmit} ref={formRef}>
-            <div>
-              <strong>Grande Comando:</strong>
-              <Select
-                options={options1}
-                onChange={handleChange}
-                theme={theme => ({
-                  ...theme,
-                  borderRadius: 10,
-                  colors: {
-                    ...theme.colors,
-                    primary25: 'orange',
-                    primary: 'orange',
-                  },
-                })}
-              />
-            </div>
+          <Form onSubmit={handleSubmit(handlesubmit)} ref={formRef}>
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const comando = options1.find(
+                  (c: { value: any }) => c.value === value,
+                );
 
-            <div>
-              <strong>OPM:</strong>
-              <Select
-                options={options2}
-                onChange={handleChange}
-                theme={theme => ({
-                  ...theme,
-                  borderRadius: 10,
-                  colors: {
-                    ...theme.colors,
-                    primary25: 'orange',
-                    primary: 'orange',
-                  },
-                })}
-              />
-            </div>
+                const handleSelectChange = (selectedOption: any | null) => {
+                  onChange(selectedOption?.value);
+                };
 
-            <div>
-              <strong>Zona:</strong>
-              <Select
-                options={options3}
-                onChange={handleChange}
-                theme={theme => ({
-                  ...theme,
-                  borderRadius: 10,
-                  colors: {
-                    ...theme.colors,
-                    primary25: 'orange',
-                    primary: 'orange',
-                  },
-                })}
-              />
-            </div>
+                return (
+                  <div>
+                    <strong>Grande Comando *:</strong>
+                    <Select
+                      value={comando}
+                      options={options1}
+                      onChange={handleSelectChange}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="comando"
+            />
 
-            <div>
-              <strong>Cidade:</strong>
-              <Select
-                options={options4}
-                onChange={handleChange}
-                theme={theme => ({
-                  ...theme,
-                  borderRadius: 10,
-                  colors: {
-                    ...theme.colors,
-                    primary25: 'orange',
-                    primary: 'orange',
-                  },
-                })}
-              />
-            </div>
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const opm = options2.find(
+                  (c: { value: any }) => c.value === value,
+                );
+                const handleSelectChange = (selectedOption: any | null) => {
+                  onChange(selectedOption?.value);
+                };
 
-            <div>
-              <strong>Tipo de Ocorrência:</strong>
-              <Select
-                options={options5}
-                onChange={handleChange}
-                theme={theme => ({
-                  ...theme,
-                  borderRadius: 10,
-                  colors: {
-                    ...theme.colors,
-                    primary25: 'orange',
-                    primary: 'orange',
-                  },
-                })}
-              />
-            </div>
+                return (
+                  <div>
+                    <strong>OPM *:</strong>
+                    <Select
+                      value={opm}
+                      options={options2}
+                      onChange={handleSelectChange}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="opm"
+            />
 
-            <div>
-              <strong>Ocorrência:</strong>
-              <Select
-                options={options6}
-                onChange={handleChange}
-                theme={theme => ({
-                  ...theme,
-                  borderRadius: 10,
-                  colors: {
-                    ...theme.colors,
-                    primary25: 'orange',
-                    primary: 'orange',
-                  },
-                })}
-              />
-            </div>
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const zona = options3.find(
+                  (c: { value: any }) => c.value === value,
+                );
+                const handleSelectChange = (selectedOption: any | null) => {
+                  onChange(selectedOption?.value);
+                };
 
-            <div>
-              <Input name="descricao" type="text" placeholder="Descrição" />
-            </div>
+                return (
+                  <div>
+                    <strong>Zona *:</strong>
+                    <Select
+                      value={zona}
+                      options={options3}
+                      onChange={handleSelectChange}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="zona"
+            />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const cidade = options4.find(
+                  (c: { value: any }) => c.value === value,
+                );
+                const handleSelectChange = (selectedOption: any | null) => {
+                  onChange(selectedOption?.value);
+                };
+
+                return (
+                  <div>
+                    <strong>Cidade *:</strong>
+                    <Select
+                      value={cidade}
+                      options={options4}
+                      onChange={handleSelectChange}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="cidade"
+            />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const tipo = options5.find(
+                  (c: { value: any }) => c.value === value,
+                );
+                const handleSelectChange = (selectedOption: any | null) => {
+                  onChange(selectedOption?.value);
+                };
+
+                return (
+                  <div>
+                    <strong>Tipo de Ocorrência *:</strong>
+                    <Select
+                      value={tipo}
+                      options={options5}
+                      onChange={handleSelectChange}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="tipo"
+            />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const ocorrencia = options6.find(
+                  (c: { value: any }) => c.value === value,
+                );
+                const handleSelectChange = (selectedOption: any | null) => {
+                  onChange(selectedOption?.value);
+                };
+
+                return (
+                  <div>
+                    <strong>Ocorrência *:</strong>
+                    <Select
+                      value={ocorrencia}
+                      options={options6}
+                      onChange={handleSelectChange}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="ocorrencia"
+            />
+
+            <Controller
+              control={control}
+              name="descricao"
+              render={({ field }) => {
+                return (
+                  <div>
+                    <Input
+                      {...field}
+                      name="descricao"
+                      type="text"
+                      placeholder="Descrição"
+                    />
+                  </div>
+                );
+              }}
+            />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const desfecho = options7.find(
+                  (c: { value: any }) => c.value === value,
+                );
+                const handleSelectChange = (selectedOption: any | null) => {
+                  onChange(selectedOption?.value);
+                };
+                return (
+                  <div>
+                    <strong>Desfecho *:</strong>
+                    <Select
+                      value={desfecho}
+                      options={options7}
+                      onChange={handleSelectChange}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="desfecho"
+            />
 
             <Button type="submit">Enviar</Button>
           </Form>
