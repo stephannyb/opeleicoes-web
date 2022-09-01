@@ -48,6 +48,11 @@ export const Schedule = styled.div`
     font-size: 36px;
   }
 
+  form {
+    height: 100%;
+    padding-bottom: 4rem;
+  }
+
   form > div {
     margin: 2rem 0 0 0;
     color: #000000;
