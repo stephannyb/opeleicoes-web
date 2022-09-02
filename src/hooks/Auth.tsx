@@ -17,6 +17,7 @@ interface UserData {
 
 interface AuthContextData {
   // user: UserData;
+  cpf: string;
   token: string;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
@@ -25,6 +26,7 @@ interface AuthContextData {
 
 interface AuthState {
   token: string;
+  cpf: string;
   // user: UserData;
 }
 
@@ -33,11 +35,12 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@opEleicoes:token');
+    const cpf = '';
     // const user = localStorage.getItem('@opEleicoes:user');
 
     if (token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
-      return { token };
+      return { token, cpf };
     }
 
     return {} as AuthState;
@@ -66,7 +69,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     localStorage.setItem('@opEleicoes:token', token);
     api.defaults.headers.authorization = `Bearer ${token}`;
-    setData({ token });
+    setData({ token, cpf });
   }, []);
 
   const signOut = useCallback(() => {
@@ -79,15 +82,16 @@ export const AuthProvider: React.FC = ({ children }) => {
     (user: UserData) => {
       setData({
         token: data.token,
+        cpf: data.cpf,
       });
       localStorage.setItem('@opEleicoes:user', JSON.stringify(user));
     },
-    [data.token],
+    [data.token, data.cpf],
   );
 
   return (
     <AuthContext.Provider
-      value={{ token: data.token, signIn, signOut, updateUser }}
+      value={{ cpf: data.cpf, token: data.token, signIn, signOut, updateUser }}
     >
       {children}
     </AuthContext.Provider>

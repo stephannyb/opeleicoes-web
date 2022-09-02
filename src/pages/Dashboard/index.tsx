@@ -7,6 +7,7 @@ import logoImg from '../../assets/logo.svg';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import { useAuth } from '../../hooks/Auth';
+import api from '../../services/api';
 import { Container, Content, Header, HeaderContent, Schedule } from './styles';
 
 const Dashboard: React.FC = () => {
@@ -334,9 +335,16 @@ const Dashboard: React.FC = () => {
   ];
 
   const { handleSubmit, control } = useForm<any>();
+  const { cpf } = useAuth();
 
-  const handlesubmit = (data: any) => {
-    console.log(data);
+  const handlesubmit = async (data: any) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // const apiResponse =
+    await api.post('relatorio', {
+      cpf,
+      data,
+    });
+    // console.log(apiResponse);
   };
 
   return (
