@@ -1,8 +1,10 @@
 import { Form } from '@unform/web';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiPower } from 'react-icons/fi';
+import Modal from 'react-modal';
 import Select from 'react-select';
+import okImg from '../../assets/correct.png';
 import logoImg from '../../assets/logo.svg';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -10,6 +12,8 @@ import { useAuth } from '../../hooks/Auth';
 import { Container, Content, Header, HeaderContent, Schedule } from './styles';
 
 const Dashboard: React.FC = () => {
+  const [open, setOpen] = useState(false);
+
   const formRef = useRef(null);
   const { signOut } = useAuth();
 
@@ -335,9 +339,25 @@ const Dashboard: React.FC = () => {
 
   const { handleSubmit, control } = useForm<any>();
 
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
   const handlesubmit = (data: any) => {
     console.log(data);
+    setOpen(true);
   };
+
+  function refreshPage() {
+    window.location.reload();
+  }
 
   return (
     <Container>
@@ -364,7 +384,6 @@ const Dashboard: React.FC = () => {
                 const handleSelectChange = (selectedOption: any | null) => {
                   onChange(selectedOption?.value);
                 };
-
                 return (
                   <div>
                     <strong>Grande Comando *:</strong>
@@ -398,7 +417,6 @@ const Dashboard: React.FC = () => {
                 const handleSelectChange = (selectedOption: any | null) => {
                   onChange(selectedOption?.value);
                 };
-
                 return (
                   <div>
                     <strong>OPM *:</strong>
@@ -432,7 +450,6 @@ const Dashboard: React.FC = () => {
                 const handleSelectChange = (selectedOption: any | null) => {
                   onChange(selectedOption?.value);
                 };
-
                 return (
                   <div>
                     <strong>Zona *:</strong>
@@ -466,7 +483,6 @@ const Dashboard: React.FC = () => {
                 const handleSelectChange = (selectedOption: any | null) => {
                   onChange(selectedOption?.value);
                 };
-
                 return (
                   <div>
                     <strong>Cidade *:</strong>
@@ -500,7 +516,6 @@ const Dashboard: React.FC = () => {
                 const handleSelectChange = (selectedOption: any | null) => {
                   onChange(selectedOption?.value);
                 };
-
                 return (
                   <div>
                     <strong>Tipo de Ocorrência *:</strong>
@@ -534,7 +549,6 @@ const Dashboard: React.FC = () => {
                 const handleSelectChange = (selectedOption: any | null) => {
                   onChange(selectedOption?.value);
                 };
-
                 return (
                   <div>
                     <strong>Ocorrência *:</strong>
@@ -587,7 +601,7 @@ const Dashboard: React.FC = () => {
                 };
                 return (
                   <div>
-                    <strong>Desfecho *:</strong>
+                    <strong>Desfecho :</strong>
                     <Select
                       value={desfecho}
                       options={options7}
@@ -605,12 +619,17 @@ const Dashboard: React.FC = () => {
                   </div>
                 );
               }}
-              rules={{ required: true }}
+              rules={{ required: false }}
               name="desfecho"
             />
 
             <Button type="submit">Enviar</Button>
           </Form>
+
+          <Modal isOpen={open} style={customStyles}>
+            <img src={okImg} width={100} alt="ok" />
+            <Button onClick={refreshPage}>OK</Button>
+          </Modal>
         </Schedule>
       </Content>
     </Container>

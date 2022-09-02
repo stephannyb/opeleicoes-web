@@ -48,6 +48,10 @@ export const Schedule = styled.div`
     font-size: 36px;
   }
 
+  img {
+    display: flex;
+  }
+
   form {
     height: 100%;
     padding-bottom: 4rem;
