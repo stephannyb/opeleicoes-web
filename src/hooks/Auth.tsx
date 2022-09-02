@@ -1,4 +1,5 @@
-// import axios from 'axios';
+/* eslint-disable no-shadow */
+import axios from 'axios';
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import api from '../services/api';
 
@@ -15,7 +16,9 @@ interface UserData {
 }
 
 interface AuthContextData {
-  user: UserData;
+  // user: UserData;
+  cpf: string;
+  token: string;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
   updateUser(user: UserData): void;
@@ -23,50 +26,55 @@ interface AuthContextData {
 
 interface AuthState {
   token: string;
-  user: UserData;
+  cpf: string;
+  // user: UserData;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@GoBarber:token');
-    const user = localStorage.getItem('@GoBarber:user');
+    const token = localStorage.getItem('@opEleicoes:token');
+    const cpf = '';
+    // const user = localStorage.getItem('@opEleicoes:user');
 
-    if (token && user) {
-      // if (token) {
+    if (token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
-      return { token, user: JSON.parse(user) };
-      // return { token };
+      return { token, cpf };
     }
 
     return {} as AuthState;
   });
 
   const signIn = useCallback(async ({ cpf, password }) => {
-    // const response = await api.post<AuthState>('session', {
+    // const apiResponse = await api.post<AuthState>('session', {
     //   cpf,
     //   password,
     // });
 
-    // const { token, user } = response.data;
-    const token = 'asdasdasdjoasçdljksçajdaçl';
-    const user = {
-      id: '1',
-      email: 'email@email.com',
-      name: 'Nome',
-      avatar_url: 'adasdasd',
-    };
+    const response = await axios
+      .get('https://rota.pm.rn.gov.br/sanctum/csrf-cookie')
+      .then(() => {
+        return axios
+          .post(`https://rota.pm.rn.gov.br/api/login`, { cpf, password })
+          .then(res => {
+            return res.data.data;
+          })
+          .catch(() => {
+            throw new Error('CPF ou Senha Incorreto(a)');
+          });
+      });
 
-    localStorage.setItem('@GoBarber:token', token);
-    localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+    const { token } = response;
+
+    localStorage.setItem('@opEleicoes:token', token);
     api.defaults.headers.authorization = `Bearer ${token}`;
-    setData({ token, user });
+    setData({ token, cpf });
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@GoBarber:token');
-    localStorage.removeItem('@GoBarber:user');
+    localStorage.removeItem('@opEleicoes:token');
+    localStorage.removeItem('@opEleicoes:user');
     setData({} as AuthState);
   }, []);
 
@@ -74,16 +82,16 @@ export const AuthProvider: React.FC = ({ children }) => {
     (user: UserData) => {
       setData({
         token: data.token,
-        user,
+        cpf: data.cpf,
       });
-      localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+      localStorage.setItem('@opEleicoes:user', JSON.stringify(user));
     },
-    [data.token],
+    [data.token, data.cpf],
   );
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, updateUser }}
+      value={{ cpf: data.cpf, token: data.token, signIn, signOut, updateUser }}
     >
       {children}
     </AuthContext.Provider>
