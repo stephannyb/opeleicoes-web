@@ -3,8 +3,10 @@ import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiPower } from 'react-icons/fi';
 import Modal from 'react-modal';
+import { useHistory } from 'react-router-dom';
 import Select from 'react-select';
 import okImg from '../../assets/correct.png';
+import notOkImg from '../../assets/cross.png';
 import logoImg from '../../assets/logo.svg';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -13,10 +15,16 @@ import api from '../../services/api';
 import { Container, Content, Header, HeaderContent, Schedule } from './styles';
 
 const Dashboard: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const history = useHistory();
 
+  const [open, setOpen] = useState(false);
+  const [erro, setErro] = useState(false);
   const formRef = useRef(null);
   const { signOut } = useAuth();
+
+  function teste() {
+    history.push('/oficial');
+  }
 
   const options1 = [
     { value: 'CPC', label: 'CPC' },
@@ -354,12 +362,19 @@ const Dashboard: React.FC = () => {
 
   const handlesubmit = async (data: any) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    // const apiResponse =
-    await api.post('relatorio', {
-      cpf,
-      data,
-    });
-    // console.log(apiResponse);
+    await api
+      .post('relatorio', {
+        cpf,
+        data,
+      })
+      .then(res => {
+        const k = res.config.data;
+        console.log(k);
+      })
+      .catch(err => {
+        setErro(true);
+        console.log(err.response.data);
+      });
   };
 
   function refreshPage() {
@@ -375,6 +390,9 @@ const Dashboard: React.FC = () => {
       <Header>
         <HeaderContent>
           <img src={logoImg} alt="Operação Eleições" />
+          <button type="button" onClick={teste}>
+            <FiPower color="blue" />
+          </button>
           <button type="button" onClick={signOut}>
             <FiPower />
           </button>
@@ -640,7 +658,21 @@ const Dashboard: React.FC = () => {
           </Form>
 
           <Modal isOpen={open} style={customStyles}>
-            <img style={{ display: 'flex' }} src={okImg} width={100} alt="ok" />
+            {erro === true ? (
+              <img
+                style={{ display: 'flex' }}
+                src={notOkImg}
+                width={100}
+                alt="ok"
+              />
+            ) : (
+              <img
+                style={{ display: 'flex' }}
+                src={okImg}
+                width={100}
+                alt="ok"
+              />
+            )}
             <Button onClick={refreshPage}>OK</Button>
           </Modal>
         </Schedule>
