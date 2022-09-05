@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import api from '../../services/api';
 import Button from '../Button';
 import { CardContent, CardPanel, ModalContent, TextCard } from './styles';
 
@@ -25,25 +26,24 @@ export default function Panel() {
     },
   };
 
-  // useEffect(() => {
-  //   loadUser()
-  // }, [])
+  useEffect(() => {
+    loadUser();
+  }, []);
 
-  // const [users, SetUsers] = useState<Perfil>()
-
-  // const loadUser = async () => {
-  //   try {
-  //     const res = await axios.post(`https://rota.pm.rn.gov.br/api/usuario`, '',
-  //       {
-  //         headers: {
-  //           'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
-  //         }
-  //       })
-  //     SetUsers(res.data.data)
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
+  const loadUser = async () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    await api
+      .post('validar', {
+        cidade: 'Natal',
+      })
+      .then(res => {
+        const k = res.data.res;
+        console.log(k);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   function openModal() {
     setOpen(true);
