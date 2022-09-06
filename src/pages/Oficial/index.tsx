@@ -22,8 +22,6 @@ const Oficial: React.FC = () => {
         <Schedule>
           <h1>Operação Eleições 2022 - 1º TURNO</h1>
           <Panel />
-          <Panel />
-          <Panel />
         </Schedule>
       </Content>
     </Container>

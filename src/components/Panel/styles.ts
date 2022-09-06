@@ -25,6 +25,21 @@ export const TextCard = styled.h4`
     color: #fc9022;
   }
   margin-top: 10px;
+
+  &.modal {
+    color: #000000;
+  }
+`;
+
+export const TittleModal = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  :first-child {
+    font-size: larger;
+    font-weight: bolder;
+  }
 `;
 
 export const CardContent = styled.div`

@@ -13,6 +13,14 @@ export const Container = styled.button`
   margin-top: 16px;
   transition: background-color 0.2s;
 
+  &.close {
+    background: #d11c1c;
+    color: #ffffff;
+    height: 50px;
+    margin-left: 17rem;
+    width: 50px;
+  }
+
   &.secondary {
     margin-left: 1rem;
     background: #28262e;
