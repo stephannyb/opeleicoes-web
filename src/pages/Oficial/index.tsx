@@ -91,9 +91,9 @@ const Oficial: React.FC = () => {
               cidade={cards.cidade}
               ocorrencia={cards.ocorrencia}
               show={() => {
-                setModalData(cards.id);
+                setModalData(cards);
                 setModalIsOpen(true);
-                console.log('modal: ', modalData);
+                console.log('modal: ', cards);
               }}
             />
           ))}
