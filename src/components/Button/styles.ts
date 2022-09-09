@@ -17,7 +17,7 @@ export const Container = styled.button`
     background: #d11c1c;
     color: #ffffff;
     height: 50px;
-    margin-left: 17rem;
+    margin-left: auto;
     width: 50px;
   }
 

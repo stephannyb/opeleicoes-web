@@ -15,7 +15,7 @@ export const CardPanel = styled.div`
       color: white;
       border-radius: 25px;
       width: 300px;
-      height: 150px;
+      height: 180px;
     }
   }
 `;
@@ -23,8 +23,9 @@ export const CardPanel = styled.div`
 export const TextCard = styled.h4`
   :first-child {
     color: #fc9022;
+    margin-top: 2rem;
   }
-  margin-top: 10px;
+  margin-bottom: 1rem;
 
   &.modal {
     color: #000000;
@@ -35,10 +36,13 @@ export const TittleModal = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom: 2rem;
 
-  :first-child {
-    font-size: larger;
-    font-weight: bolder;
+  font-size: larger;
+  font-weight: bolder;
+
+  h4 {
+    margin-right: 7rem;
   }
 `;
 
