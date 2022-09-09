@@ -26,14 +26,14 @@ const Dashboard: React.FC = () => {
     history.push('/oficial');
   }
 
-  const options1 = [
-    { value: 'CPC', label: 'CPC' },
-    { value: 'CPM', label: 'CPM' },
-    { value: 'CPRI', label: 'CPR I' },
-    { value: 'CPRII', label: 'CPR II' },
-    { value: 'CPRIII', label: 'CPR III' },
-    { value: 'CPRIV', label: 'CPR IV' },
-  ];
+  // const options1 = [
+  //   { value: 'CPC', label: 'CPC' },
+  //   { value: 'CPM', label: 'CPM' },
+  //   { value: 'CPRI', label: 'CPR I' },
+  //   { value: 'CPRII', label: 'CPR II' },
+  //   { value: 'CPRIII', label: 'CPR III' },
+  //   { value: 'CPRIV', label: 'CPR IV' },
+  // ];
 
   const options2 = [
     { value: '1º BPM', label: '1º BPM' },
@@ -309,13 +309,13 @@ const Dashboard: React.FC = () => {
     { value: 'Vila Flor', label: 'Vila Flor' },
   ];
 
-  const options5 = [
-    { value: 'Comum', label: 'Comum' },
-    { value: 'Eleitoral', label: 'Eleitoral' },
-  ];
+  // const options5 = [
+  //   { value: 'Comum', label: 'Comum' },
+  //   { value: 'Eleitoral', label: 'Eleitoral' },
+  // ];
 
   const options6 = [
-    { value: 'Boca De Urna', label: 'Boca De Urna' },
+    { value: 'Boca de Urna', label: 'Boca de Urna' },
     {
       value: 'Transporte Ilegal de Eleitores',
       label: 'Transporte Ilegal de Eleitores',
@@ -330,9 +330,9 @@ const Dashboard: React.FC = () => {
     { value: 'Celular em Urna', label: 'Celular em Urna' },
     { value: 'Desordem', label: 'Desordem' },
     { value: 'Desacato', label: 'Desacato' },
-    { value: 'Desobediência', label: 'Desobediência' },
+    { value: 'Desobediencia', label: 'Desobediência' },
     { value: 'Porte Ilegal de Arma', label: 'Porte Ilegal de Arma' },
-    { value: 'Outro', label: 'Outro' },
+    { value: 'Outros', label: 'Outro' },
   ];
 
   const options7 = [
@@ -363,7 +363,7 @@ const Dashboard: React.FC = () => {
   const handlesubmit = async (data: any) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     await api
-      .post('relatorio', {
+      .post('relatorio2', {
         cpf,
         data,
       })
@@ -403,7 +403,7 @@ const Dashboard: React.FC = () => {
           <h1>Operação Eleições 2022 - 1º TURNO</h1>
 
           <Form onSubmit={handleSubmit(handlesubmit)} ref={formRef}>
-            <Controller
+            {/* <Controller
               control={control}
               render={({ field: { onChange, value } }) => {
                 const comando = options1.find(
@@ -435,7 +435,7 @@ const Dashboard: React.FC = () => {
               }}
               rules={{ required: true }}
               name="comando"
-            />
+            /> */}
 
             <Controller
               control={control}
@@ -536,7 +536,7 @@ const Dashboard: React.FC = () => {
               name="cidade"
             />
 
-            <Controller
+            {/* <Controller
               control={control}
               render={({ field: { onChange, value } }) => {
                 const tipo = options5.find(
@@ -567,7 +567,7 @@ const Dashboard: React.FC = () => {
               }}
               rules={{ required: true }}
               name="tipo"
-            />
+            /> */}
 
             <Controller
               control={control}
