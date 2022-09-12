@@ -7,7 +7,7 @@ import Panel from '../../components/Panel';
 import {
   ModalContent,
   TextCard,
-  TittleModal
+  TittleModal,
 } from '../../components/Panel/styles';
 import { useAuth } from '../../hooks/Auth';
 import api from '../../services/api';
