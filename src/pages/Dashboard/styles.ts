@@ -13,13 +13,14 @@ export const HeaderContent = styled.div`
   padding: 0 2rem 0 2rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   > img {
     height: 80px;
   }
 
   button {
-    margin-left: auto;
+    margin-left: 1rem;
     background: transparent;
     border: 0;
 
@@ -46,11 +47,6 @@ export const Schedule = styled.div`
 
   h1 {
     font-size: 36px;
-  }
-
-  form {
-    height: 100%;
-    padding-bottom: 4rem;
   }
 
   form > div {

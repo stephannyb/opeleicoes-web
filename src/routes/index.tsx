@@ -7,7 +7,7 @@ import ResetPassword from '../pages/ResetPassword';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 
-import Oficial from '../pages/Oficial';
+import Listar from '../pages/Listar';
 import Route from './Route';
 
 const Routes: React.FC = () => (
@@ -19,7 +19,7 @@ const Routes: React.FC = () => (
 
     <Route path="/dashboard" component={Dashboard} isPrivate />
     <Route path="/relatorio" component={Dashboard} isPrivate />
-    <Route path="/oficial" component={Oficial} isPrivate />
+    <Route path="/listar" component={Listar} isPrivate />
   </Switch>
 );
 

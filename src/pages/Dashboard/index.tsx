@@ -1,7 +1,7 @@
 import { Form } from '@unform/web';
 import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { FiPower } from 'react-icons/fi';
+import { FiList, FiPower } from 'react-icons/fi';
 import Modal from 'react-modal';
 import { useHistory } from 'react-router-dom';
 import Select from 'react-select';
@@ -16,14 +16,13 @@ import { Container, Content, Header, HeaderContent, Schedule } from './styles';
 
 const Dashboard: React.FC = () => {
   const history = useHistory();
-
   const [open, setOpen] = useState(false);
   const [erro, setErro] = useState(false);
   const formRef = useRef(null);
   const { signOut } = useAuth();
 
-  function teste() {
-    history.push('/oficial');
+  function listar() {
+    history.push('/listar');
   }
 
   // const options1 = [
@@ -390,12 +389,14 @@ const Dashboard: React.FC = () => {
       <Header>
         <HeaderContent>
           <img src={logoImg} alt="Operação Eleições" />
-          <button type="button" onClick={teste}>
-            <FiPower color="blue" />
-          </button>
-          <button type="button" onClick={signOut}>
-            <FiPower />
-          </button>
+          <div>
+            <button type="button" onClick={listar}>
+              <FiList />
+            </button>
+            <button type="button" onClick={signOut}>
+              <FiPower />
+            </button>
+          </div>
         </HeaderContent>
       </Header>
       <Content>
