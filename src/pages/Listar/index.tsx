@@ -1,5 +1,5 @@
 import { Form } from '@unform/web';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiArrowLeftCircle } from 'react-icons/fi';
 import Modal from 'react-modal';
@@ -48,6 +48,7 @@ const Listar: React.FC = () => {
   const history = useHistory();
   const { handleSubmit, control } = useForm<any>();
   const [card, setCard] = useState<Items[]>([]);
+  const [green, setGreen] = useState<boolean>(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState<Items>();
   const formRef = useRef(null);
@@ -71,9 +72,9 @@ const Listar: React.FC = () => {
     setModalIsOpen(true);
   };
 
-  function voltar() {
+  const voltar = () => {
     history.push('/dashboard');
-  }
+  };
 
   const options = [
     { value: 'Acari', label: 'Acari' },
@@ -248,11 +249,6 @@ const Listar: React.FC = () => {
     { value: 'Vila Flor', label: 'Vila Flor' },
   ];
 
-  useEffect(() => {
-    // eslint-disable-next-line no-undef
-    // loadUser();
-  }, []);
-
   return (
     <Container>
       <Header>
@@ -312,6 +308,7 @@ const Listar: React.FC = () => {
               contato={cards.st_matricula}
               cidade={cards.cidade}
               ocorrencia={cards.ocorrencia}
+              status={green}
               show={() => {
                 handleSend(cards);
               }}
@@ -328,8 +325,21 @@ const Listar: React.FC = () => {
             <TextCard className="modal">{modalData?.descricao}</TextCard>
             <TextCard className="modal">{modalData?.desfecho}</TextCard>
             <ModalContent>
-              <Button>Validar</Button>
-              <Button className="secondary">Invalidar</Button>
+              <Button
+                onClick={() => {
+                  setGreen(true);
+                }}
+              >
+                Validar
+              </Button>
+              <Button
+                onClick={() => {
+                  setGreen(false);
+                }}
+                className="secondary"
+              >
+                Invalidar
+              </Button>
             </ModalContent>
           </Modal>
         </Schedule>

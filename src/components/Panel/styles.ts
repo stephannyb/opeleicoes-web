@@ -10,6 +10,14 @@ export const CardPanel = styled.div`
     -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
   }
 
+  .success {
+    border: 5px solid limegreen;
+  }
+
+  .danger {
+    border: 5px solid indianred;
+  }
+
   @media (max-width: 992px) {
     div {
       color: white;
@@ -26,6 +34,7 @@ export const TextCard = styled.h4`
     margin-top: 2rem;
   }
   margin-bottom: 1rem;
+  line-break: anywhere;
 
   &.modal {
     color: #000000;
