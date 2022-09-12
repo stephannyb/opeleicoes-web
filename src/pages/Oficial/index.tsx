@@ -64,10 +64,13 @@ const Oficial: React.FC = () => {
     loadUser();
   }, []);
 
-  console.log(card);
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState<any>();
+
+  const handleSend = (cards: any) => {
+    setModalData(cards);
+    setModalIsOpen(true);
+  };
 
   return (
     <Container>
@@ -91,22 +94,20 @@ const Oficial: React.FC = () => {
               cidade={cards.cidade}
               ocorrencia={cards.ocorrencia}
               show={() => {
-                setModalData(cards);
-                setModalIsOpen(true);
-                console.log('modal: ', cards);
+                handleSend(cards);
               }}
             />
           ))}
           <Modal isOpen={modalIsOpen} style={customStyles} ariaHideApp={false}>
             <TittleModal>
-              <TextCard className="modal">modalData.nome</TextCard>
+              <TextCard className="modal">{modalData?.st_nomeguerra}</TextCard>
               <Button className="close" onClick={() => setModalIsOpen(false)}>
                 X
               </Button>
             </TittleModal>
-            <TextCard className="modal">modalData.ocorrencia</TextCard>
-            <TextCard className="modal">modalData.descricao</TextCard>
-            <TextCard className="modal">modalData.desfecho</TextCard>
+            <TextCard className="modal">{modalData?.ocorrencia}</TextCard>
+            <TextCard className="modal">{modalData?.descricao}</TextCard>
+            <TextCard className="modal">{modalData?.desfecho}</TextCard>
             <ModalContent>
               <Button>Validar</Button>
               <Button className="secondary">Invalidar</Button>
