@@ -65,9 +65,9 @@ const Oficial: React.FC = () => {
   }, []);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalData, setModalData] = useState<any>();
+  const [modalData, setModalData] = useState<Items>();
 
-  const handleSend = (cards: any) => {
+  const handleSend = (cards: Items) => {
     setModalData(cards);
     setModalIsOpen(true);
   };
