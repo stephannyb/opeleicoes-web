@@ -13,7 +13,6 @@ import Panel from '../../components/Panel';
 import {
   ModalContent,
   TextCard,
-  // eslint-disable-next-line prettier/prettier
   TittleModal
 } from '../../components/Panel/styles';
 import api from '../../services/api';
