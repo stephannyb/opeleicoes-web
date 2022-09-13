@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import { useField } from '@unform/core';
 import React, {
   InputHTMLAttributes,
+  useCallback,
   useEffect,
   useRef,
-  useState,
-  useCallback,
+  useState
 } from 'react';
 import { IconBaseProps } from 'react-icons';
 import { FiAlertCircle } from 'react-icons/fi';
-import { useField } from '@unform/core';
 
 import { Container, Error } from './styles';
 
