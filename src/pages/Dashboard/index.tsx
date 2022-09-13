@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form } from '@unform/web';
 import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
