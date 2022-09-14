@@ -69,6 +69,22 @@ const Listar: React.FC = () => {
       });
   };
 
+  // const loadLocais = async () => {
+  //   // eslint-disable-next-line react-hooks/rules-of-hooks
+  //   await api
+  //     .get('locais')
+  //     .then(res => {
+  //       setArray(res.data.res);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
+  //
+  // useEffect(() => {
+  //   loadLocais();
+  // });
+
   const handleSend = (cards: Items) => {
     setModalData(cards);
     setModalIsOpen(true);
@@ -272,7 +288,6 @@ const Listar: React.FC = () => {
                 const cidade = options.find(
                   (c: { value: any }) => c.value === value,
                 );
-
                 const handleSelectChange = (selectedOption: any | null) => {
                   onChange(selectedOption?.value);
                 };
