@@ -1,12 +1,14 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form } from '@unform/web';
+import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiList, FiPower } from 'react-icons/fi';
 import Modal from 'react-modal';
 import { useHistory } from 'react-router-dom';
 import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
 import okImg from '../../assets/correct.png';
 import notOkImg from '../../assets/cross.png';
 import logoImg from '../../assets/logo.svg';
@@ -26,15 +28,6 @@ const Dashboard: React.FC = () => {
   function listar() {
     history.push('/listar');
   }
-
-  // const options1 = [
-  //   { value: 'CPC', label: 'CPC' },
-  //   { value: 'CPM', label: 'CPM' },
-  //   { value: 'CPRI', label: 'CPR I' },
-  //   { value: 'CPRII', label: 'CPR II' },
-  //   { value: 'CPRIII', label: 'CPR III' },
-  //   { value: 'CPRIV', label: 'CPR IV' },
-  // ];
 
   const options2 = [
     { value: '1º BPM', label: '1º BPM' },
@@ -63,78 +56,6 @@ const Dashboard: React.FC = () => {
     { value: '8ª CIPM', label: '8ª CIPM' },
     { value: '9ª CIPM', label: '9ª CIPM' },
     { value: '10ª CIPM', label: '10ª CIPM' },
-  ];
-
-  const options3 = [
-    { value: '1', label: '1ª' },
-    { value: '2', label: '2ª' },
-    { value: '3', label: '3ª' },
-    { value: '4', label: '4ª' },
-    { value: '5', label: '5ª' },
-    { value: '6', label: '6ª' },
-    { value: '7', label: '7ª' },
-    { value: '8', label: '8ª' },
-    { value: '9', label: '9ª' },
-    { value: '10', label: '10ª' },
-    { value: '11', label: '11ª' },
-    { value: '12', label: '12ª' },
-    { value: '13', label: '13ª' },
-    { value: '14', label: '14ª' },
-    { value: '15', label: '15ª' },
-    { value: '16', label: '16ª' },
-    { value: '17', label: '17ª' },
-    { value: '18', label: '18ª' },
-    { value: '19', label: '19ª' },
-    { value: '20', label: '20ª' },
-    { value: '21', label: '21ª' },
-    { value: '22', label: '22ª' },
-    { value: '23', label: '23ª' },
-    { value: '24', label: '24ª' },
-    { value: '25', label: '25ª' },
-    { value: '26', label: '26ª' },
-    { value: '27', label: '27ª' },
-    { value: '28', label: '28ª' },
-    { value: '29', label: '29ª' },
-    { value: '30', label: '30ª' },
-    { value: '31', label: '31ª' },
-    { value: '32', label: '32ª' },
-    { value: '33', label: '33ª' },
-    { value: '34', label: '34ª' },
-    { value: '35', label: '35ª' },
-    { value: '36', label: '36ª' },
-    { value: '37', label: '37ª' },
-    { value: '38', label: '38ª' },
-    { value: '39', label: '39ª' },
-    { value: '40', label: '40ª' },
-    { value: '41', label: '41ª' },
-    { value: '42', label: '42ª' },
-    { value: '43', label: '43ª' },
-    { value: '44', label: '44ª' },
-    { value: '45', label: '45ª' },
-    { value: '46', label: '46ª' },
-    { value: '47', label: '47ª' },
-    { value: '48', label: '48ª' },
-    { value: '49', label: '49ª' },
-    { value: '50', label: '50ª' },
-    { value: '51', label: '51ª' },
-    { value: '52', label: '52ª' },
-    { value: '53', label: '53ª' },
-    { value: '54', label: '54ª' },
-    { value: '55', label: '55ª' },
-    { value: '56', label: '56ª' },
-    { value: '57', label: '57ª' },
-    { value: '58', label: '58ª' },
-    { value: '59', label: '59ª' },
-    { value: '60', label: '60ª' },
-    { value: '61', label: '61ª' },
-    { value: '62', label: '62ª' },
-    { value: '63', label: '63ª' },
-    { value: '64', label: '64ª' },
-    { value: '65', label: '65ª' },
-    { value: '66', label: '66ª' },
-    { value: '67', label: '67ª' },
-    { value: '68', label: '68ª' },
-    { value: '69', label: '69ª' },
   ];
 
   const options4 = [
@@ -310,11 +231,6 @@ const Dashboard: React.FC = () => {
     { value: 'Vila Flor', label: 'Vila Flor' },
   ];
 
-  // const options5 = [
-  //   { value: 'Comum', label: 'Comum' },
-  //   { value: 'Eleitoral', label: 'Eleitoral' },
-  // ];
-
   const options6 = [
     { value: 'Boca de Urna', label: 'Boca de Urna' },
     {
@@ -378,6 +294,31 @@ const Dashboard: React.FC = () => {
       });
   };
 
+  const mapResponseToValuesAndLabels = (data: {
+    id: any;
+    nome: any;
+    municipio: any;
+  }) => ({
+    value: `${data.nome} - ${data.municipio}`,
+    label: `${data.nome} - ${data.municipio}`,
+    id: data.id,
+  });
+
+  // eslint-disable-next-line no-shadow
+  async function loadCidade(value: string) {
+    const data = await axios(`http://10.0.0.198:3333/validar`, {
+      method: 'POST',
+      data: {
+        cidade: value.toUpperCase(),
+      },
+    })
+      .then(res => res.data.res)
+      .then(res => res.map(mapResponseToValuesAndLabels));
+
+    console.log(data);
+    return data;
+  }
+
   function refreshPage() {
     window.location.reload();
   }
@@ -406,40 +347,6 @@ const Dashboard: React.FC = () => {
           <h1>Operação Eleições 2022 - 1º TURNO</h1>
 
           <Form onSubmit={handleSubmit(handlesubmit)} ref={formRef}>
-            {/* <Controller
-              control={control}
-              render={({ field: { onChange, value } }) => {
-                const comando = options1.find(
-                  (c: { value: any }) => c.value === value,
-                );
-
-                const handleSelectChange = (selectedOption: any | null) => {
-                  onChange(selectedOption?.value);
-                };
-                return (
-                  <div>
-                    <strong>Grande Comando *:</strong>
-                    <Select
-                      value={comando}
-                      options={options1}
-                      onChange={handleSelectChange}
-                      theme={theme => ({
-                        ...theme,
-                        borderRadius: 10,
-                        colors: {
-                          ...theme.colors,
-                          primary25: 'orange',
-                          primary: 'orange',
-                        },
-                      })}
-                    />
-                  </div>
-                );
-              }}
-              rules={{ required: true }}
-              name="comando"
-            /> */}
-
             <Controller
               control={control}
               render={({ field: { onChange, value } }) => {
@@ -475,62 +382,21 @@ const Dashboard: React.FC = () => {
 
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => {
-                const zona = options3.find(
-                  (c: { value: any }) => c.value === value,
-                );
-                const handleSelectChange = (selectedOption: any | null) => {
-                  onChange(selectedOption?.value);
-                };
-                return (
-                  <div>
-                    <strong>Zona *:</strong>
-                    <Select
-                      value={zona}
-                      options={options3}
-                      onChange={handleSelectChange}
-                      theme={theme => ({
-                        ...theme,
-                        borderRadius: 10,
-                        colors: {
-                          ...theme.colors,
-                          primary25: 'orange',
-                          primary: 'orange',
-                        },
-                      })}
-                    />
-                  </div>
-                );
-              }}
-              rules={{ required: true }}
-              name="zona"
-            />
-
-            <Controller
-              control={control}
-              render={({ field: { onChange, value } }) => {
-                const cidade = options4.find(
-                  (c: { value: any }) => c.value === value,
-                );
-                const handleSelectChange = (selectedOption: any | null) => {
-                  onChange(selectedOption?.value);
-                };
+              render={({ field }) => {
                 return (
                   <div>
                     <strong>Cidade *:</strong>
-                    <Select
-                      value={cidade}
-                      options={options4}
-                      onChange={handleSelectChange}
-                      theme={theme => ({
-                        ...theme,
-                        borderRadius: 10,
-                        colors: {
-                          ...theme.colors,
-                          primary25: 'orange',
-                          primary: 'orange',
-                        },
-                      })}
+                    <AsyncSelect
+                      {...field}
+                      cacheOptions
+                      loadOptions={loadCidade}
+                      onInputChange={data => {
+                        console.log(data);
+                      }}
+                      onChange={data => {
+                        console.log(data);
+                      }}
+                      defaultOptions
                     />
                   </div>
                 );
@@ -538,39 +404,6 @@ const Dashboard: React.FC = () => {
               rules={{ required: true }}
               name="cidade"
             />
-
-            {/* <Controller
-              control={control}
-              render={({ field: { onChange, value } }) => {
-                const tipo = options5.find(
-                  (c: { value: any }) => c.value === value,
-                );
-                const handleSelectChange = (selectedOption: any | null) => {
-                  onChange(selectedOption?.value);
-                };
-                return (
-                  <div>
-                    <strong>Tipo de Ocorrência *:</strong>
-                    <Select
-                      value={tipo}
-                      options={options5}
-                      onChange={handleSelectChange}
-                      theme={theme => ({
-                        ...theme,
-                        borderRadius: 10,
-                        colors: {
-                          ...theme.colors,
-                          primary25: 'orange',
-                          primary: 'orange',
-                        },
-                      })}
-                    />
-                  </div>
-                );
-              }}
-              rules={{ required: true }}
-              name="tipo"
-            /> */}
 
             <Controller
               control={control}
