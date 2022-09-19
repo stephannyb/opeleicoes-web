@@ -96,12 +96,6 @@ const Dashboard: React.FC = () => {
 
   const { handleSubmit, control } = useForm<any>();
   const { cpf } = useAuth();
-  // const localInicial = {
-  //   id: 0,
-  //   nome: 'inicio',
-  //   label: 'Local',
-  //   municipio: 'inicio',
-  // };
   const [selectedLocal, setSelectedLocal] = useState<localInicial | null>();
 
   const customStyles = {
@@ -116,17 +110,12 @@ const Dashboard: React.FC = () => {
   };
 
   const handlesubmit = async (data: any) => {
-    console.log(data);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-
     const local = selectedLocal?.id;
 
     if (!local) {
       console.log('local eh obrigatorio');
     }
     Object.assign(data, { local });
-
-    console.log(data);
 
     await api
       .post('relatorio', {
@@ -201,7 +190,6 @@ const Dashboard: React.FC = () => {
                 const opm = options2.find(
                   (c: { value: any }) => c.value === value,
                 );
-                // eslint-disable-next-line no-shadow
                 const handleSelectChange = (selectedOption: any | null) => {
                   onChange(selectedOption?.value);
                 };
