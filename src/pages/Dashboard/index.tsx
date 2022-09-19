@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-shadow */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form } from '@unform/web';
@@ -119,6 +121,7 @@ const Dashboard: React.FC = () => {
   };
 
   const handlesubmit = async (data: any) => {
+    console.log(data);
     // eslint-disable-next-line react-hooks/rules-of-hooks
 
     const local = selectedLocal?.id;
@@ -150,9 +153,8 @@ const Dashboard: React.FC = () => {
     nome: string;
     municipio: string;
   }) => ({
-    value: `${data.nome} - ${data.municipio}`,
+    value: data.id,
     label: `${data.nome} - ${data.municipio}`,
-    id: data.id,
   });
 
   const handelLocalChange = (event: SingleValue<localInicial>) => {
@@ -212,6 +214,7 @@ const Dashboard: React.FC = () => {
                 const opm = options2.find(
                   (c: { value: any }) => c.value === value,
                 );
+                // eslint-disable-next-line no-shadow
                 const handleSelectChange = (selectedOption: any | null) => {
                   onChange(selectedOption?.value);
                 };
@@ -221,6 +224,7 @@ const Dashboard: React.FC = () => {
                     <Select
                       value={opm}
                       options={options2}
+                      placeholder="OPM"
                       onChange={handleSelectChange}
                       theme={theme => ({
                         ...theme,
@@ -248,6 +252,7 @@ const Dashboard: React.FC = () => {
                     <AsyncSelect
                       {...field}
                       cacheOptions
+                      placeholder="Local"
                       loadOptions={loadCidade}
                       // onInputChange={data => data}
                       onChange={handelLocalChange}
@@ -282,6 +287,7 @@ const Dashboard: React.FC = () => {
                     <Select
                       value={ocorrencia}
                       options={options6}
+                      placeholder="Ocorrência"
                       onChange={handleSelectChange}
                       theme={theme => ({
                         ...theme,
@@ -332,6 +338,7 @@ const Dashboard: React.FC = () => {
                     <Select
                       value={desfecho}
                       options={options7}
+                      placeholder="Desfecho"
                       onChange={handleSelectChange}
                       theme={theme => ({
                         ...theme,
