@@ -1,9 +1,4 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-shadow */
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form } from '@unform/web';
-// import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiList, FiPower } from 'react-icons/fi';
@@ -169,14 +164,6 @@ const Dashboard: React.FC = () => {
       })
       .then(res => res.data.res)
       .then(res => res.map(mapResponseToValuesAndLabels));
-
-    // await axios(`http://10.0.0.198:3333/validar`, {
-    //   method: 'POST',
-    //   data: {
-    //     cidade: value.toUpperCase(),
-    //   },
-    // })
-    // console.log({ data });
     return data;
   }
 
@@ -254,21 +241,22 @@ const Dashboard: React.FC = () => {
                       cacheOptions
                       placeholder="Local"
                       loadOptions={loadCidade}
-                      // onInputChange={data => data}
                       onChange={handelLocalChange}
-                      // console.log(data);
-                      // if (data) {
-                      //   setSelectdLocal(data);
-                      // }
-                      // console.log(selectdLocal);
-
-                      // value={selectdLocal}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
                       defaultOptions
                     />
                   </div>
                 );
               }}
-              // rules={{ required: true }}
+              rules={{ required: true }}
               name="local"
             />
 

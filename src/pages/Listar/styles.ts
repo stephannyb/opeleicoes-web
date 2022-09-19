@@ -35,6 +35,7 @@ export const Content = styled.main`
   max-width: 1120px;
   margin: 2rem auto;
   display: flex;
+  flex-direction: column;
 
   @media (max-width: 992px) {
     max-width: 300px;
