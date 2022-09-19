@@ -1,7 +1,7 @@
 import { Form } from '@unform/web';
 import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { FiList, FiPower } from 'react-icons/fi';
+import { FiPower } from 'react-icons/fi';
 import Modal from 'react-modal';
 import { useHistory } from 'react-router-dom';
 import Select, { SingleValue } from 'react-select';
@@ -170,9 +170,9 @@ const Dashboard: React.FC = () => {
         <HeaderContent>
           <img src={logoImg} alt="Operação Eleições" />
           <div>
-            <button type="button" onClick={listar}>
+            {/* <button type="button" onClick={listar}>
               <FiList />
-            </button>
+            </button> */}
             <button type="button" onClick={signOut}>
               <FiPower />
             </button>
