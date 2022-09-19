@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form } from '@unform/web';
-import axios from 'axios';
+// import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiList, FiPower } from 'react-icons/fi';
 import Modal from 'react-modal';
 import { useHistory } from 'react-router-dom';
-import Select from 'react-select';
+import Select, { SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import okImg from '../../assets/correct.png';
 import notOkImg from '../../assets/cross.png';
@@ -58,179 +58,6 @@ const Dashboard: React.FC = () => {
     { value: '10ª CIPM', label: '10ª CIPM' },
   ];
 
-  const options4 = [
-    { value: 'Acari', label: 'Acari' },
-    { value: 'Afonso Bezerra', label: 'Afonso Bezerra' },
-    { value: 'Água Nova', label: 'Água Nova' },
-    { value: 'Alexandria', label: 'Alexandria' },
-    { value: 'Almino Afonso', label: 'Almino Afonso' },
-    { value: 'Alto do Rodrigues', label: 'Alto do Rodrigues' },
-    { value: 'Angicos', label: 'Angicos' },
-    { value: 'Antônio Martins', label: 'Antônio Martins' },
-    { value: 'Apodi', label: 'Apodi' },
-    { value: 'Areia Branca', label: 'Areia Branca' },
-    { value: 'Arez', label: 'Arez' },
-    { value: 'Assu', label: 'Assu' },
-    { value: 'Baía Formosa', label: 'Baía Formosa' },
-    { value: 'Baraúna', label: 'Baraúna' },
-    { value: 'Barcelona', label: 'Barcelona' },
-    { value: 'Bento Fernandes', label: 'Bento Fernandes' },
-    { value: 'Boa Saúde', label: 'Boa Saúde' },
-    { value: 'Bodó', label: 'Bodó' },
-    { value: 'Bom Jesus', label: 'Bom Jesus' },
-    { value: 'Brejinho', label: 'Brejinho' },
-    { value: 'Caiçara do Norte', label: 'Caiçara do Norte' },
-    { value: 'Caiçara do Rio do Vento', label: 'Caiçara do Rio do Vento' },
-    { value: 'Caicó', label: 'Caicó' },
-    { value: 'Campo Grande', label: 'Campo Grande' },
-    { value: 'Campo Redondo', label: 'Campo Redondo' },
-    { value: 'Canguaretama', label: 'Canguaretama' },
-    { value: 'Caraúbas', label: 'Caraúbas' },
-    { value: 'Carnaúba dos Dantas', label: 'Carnaúba dos Dantas' },
-    { value: 'Carnaubais', label: 'Carnaubais' },
-    { value: 'Ceará Mirim', label: 'Ceará Mirim' },
-    { value: 'Cerro Corá', label: 'Cerro Corá' },
-    { value: 'Coronel Ezequiel', label: 'Coronel Ezequiel' },
-    { value: 'Coronel João Pessoa', label: 'Coronel João Pessoa' },
-    { value: 'Cruzeta', label: 'Cruzeta' },
-    { value: 'Currais Novos', label: 'Currais Novos' },
-    { value: 'Doutor Severiano', label: 'Doutor Severiano' },
-    { value: 'Enquanto', label: 'Enquanto' },
-    { value: 'Equador', label: 'Equador' },
-    { value: 'Espírito Santo', label: 'Espírito Santo' },
-    { value: 'Extromoz', label: 'Extromoz' },
-    { value: 'Felipe Guerra', label: 'Felipe Guerra' },
-    { value: 'Fernando Pedroza', label: 'Fernando Pedroza' },
-    { value: 'Florânia', label: 'Florânia' },
-    { value: 'Francisco Dantas', label: 'Francisco Dantas' },
-    { value: 'Frutuoso Gomes', label: 'Frutuoso Gomes' },
-    { value: 'Galinhos', label: 'Galinhos' },
-    { value: 'Goianinha', label: 'Goianinha' },
-    {
-      value: 'Governador Dix-Sept Rosado',
-      label: 'Governador Dix-Sept Rosado',
-    },
-    { value: 'Grossos', label: 'Grossos' },
-    { value: 'Guamaré', label: 'Guamaré' },
-    { value: 'Ielmo Marinho', label: 'Ielmo Marinho' },
-    { value: 'Ipanguaçu', label: 'Ipanguaçu' },
-    { value: 'Ipueira', label: 'Ipueira' },
-    { value: 'Itajá', label: 'Itajá' },
-    { value: 'Itaú', label: 'Itaú' },
-    { value: 'Jaçanã', label: 'Jaçanã' },
-    { value: 'Jandaíra', label: 'Jandaíra' },
-    { value: 'Janduís', label: 'Janduís' },
-    { value: 'Japi', label: 'Japi' },
-    { value: 'Jardim de Angicos', label: 'Jardim de Angicos' },
-    { value: 'Jardim de Piranhas', label: 'Jardim de Piranhas' },
-    { value: 'Jardim do Seridó', label: 'Jardim do Seridó' },
-    { value: 'João Câmara', label: 'João Câmara' },
-    { value: 'João Dias', label: 'João Dias' },
-    { value: 'José da Penha', label: 'José da Penha' },
-    { value: 'Jucurutu', label: 'Jucurutu' },
-    { value: 'Jundiá', label: 'Jundiá' },
-    { value: 'Lagoa dAnta', label: 'Lagoa dAnta' },
-    { value: 'Lagoa de Pedras', label: 'Lagoa de Pedras' },
-    { value: 'Logoa de Velhos', label: 'Logoa de Velhos' },
-    { value: 'Lagoa Nova', label: 'Lagoa Nova' },
-    { value: 'Lagoa Salgada', label: 'Lagoa Salgada' },
-    { value: 'Lajes', label: 'Lajes' },
-    { value: 'Lajes Pintadas', label: 'Lajes Pintadas' },
-    { value: 'Lucécia', label: 'Lucécia' },
-    { value: 'Luís Gomes', label: 'Luís Gomes' },
-    { value: 'Macaíba', label: 'Macaíba' },
-    { value: 'Macau', label: 'Macau' },
-    { value: 'Major sales', label: 'Major sales' },
-    { value: 'Marcelino Vieira', label: 'Marcelino Vieira' },
-    { value: 'Martins', label: 'Martins' },
-    { value: 'Maxaranguape', label: 'Maxaranguape' },
-    { value: 'Messias Tarcino', label: 'Messias Tarcino' },
-    { value: 'Montanhas', label: 'Montanhas' },
-    { value: 'Monte Alegre', label: 'Monte Alegre' },
-    { value: 'Monte das Gameleiras', label: 'Monte das Gameleiras' },
-    { value: 'Mossoró', label: 'Mossoró' },
-    { value: 'Natal', label: 'Natal' },
-    { value: 'Nísia Floresta', label: 'Nísia Floresta' },
-    { value: 'Nova Cruz', label: 'Nova Cruz' },
-    { value: 'Olho-dÁgua do Borges', label: 'Olho-dÁgua do Borges' },
-    { value: 'Ouro Branco', label: 'Ouro Branco' },
-    { value: 'Paraná', label: 'Paraná' },
-    { value: 'Paraú', label: 'Paraú' },
-    { value: 'Parazinho', label: 'Parazinho' },
-    { value: 'Parelhas', label: 'Parelhas' },
-    { value: 'Parnamirim', label: 'Parnamirim' },
-    { value: 'Passa e Fica', label: 'Passa e Fica' },
-    { value: 'Passagem', label: 'Passagem' },
-    { value: 'Patu', label: 'Patu' },
-    { value: 'Pau dos Ferros', label: 'Pau dos Ferros' },
-    { value: 'Pedra Grande', label: 'Pedra Grande' },
-    { value: 'Pedra Preta', label: 'Pedra Preta' },
-    { value: 'Pedro Avelino', label: 'Pedro Avelino' },
-    { value: 'Pedro Velho', label: 'Pedro Velho' },
-    { value: 'Pendências', label: 'Pendências' },
-    { value: 'Pilões', label: 'Pilões' },
-    { value: 'Poço Branco', label: 'Poço Branco' },
-    { value: 'Portalegre', label: 'Portalegre' },
-    { value: 'Porto do Mangue', label: 'Porto do Mangue' },
-    { value: 'Pureza', label: 'Pureza' },
-    { value: 'Rafael Fernandes', label: 'Rafael Fernandes' },
-    { value: 'Rafael Godeiro', label: 'Rafael Godeiro' },
-    { value: 'Riacho da Cruz', label: 'Riacho da Cruz' },
-    { value: 'Riacho de Santana', label: 'Riacho de Santana' },
-    { value: 'Riachuelo', label: 'Riachuelo' },
-    { value: 'Rio do Fogo', label: 'Rio do Fogo' },
-    { value: 'Rodolfo Fernandes', label: 'Rodolfo Fernandes' },
-    { value: 'Ruy Barbosa', label: 'Ruy Barbosa' },
-    { value: 'Santa Cruz', label: 'Santa Cruz' },
-    { value: 'Santa Maria', label: 'Santa Maria' },
-    { value: 'Santana dos Matos', label: 'Santana dos Matos' },
-    { value: 'Santana do Seridó', label: 'Santana do Seridó' },
-    { value: 'Santo Antônio', label: 'Santo Antônio' },
-    { value: 'São Bento do Norte', label: 'São Bento do Norte' },
-    { value: 'São Bento do Traíri', label: 'São Bento do Traíri' },
-    { value: 'São Fernando', label: 'São Fernando' },
-    { value: 'São Francisco do Oeste', label: 'São Francisco do Oeste' },
-    { value: 'São Gonçalo do Amarante', label: 'São Gonçalo do Amarante' },
-    { value: 'São João do Sabugi', label: 'São João do Sabugi' },
-    { value: 'São José de Mipibu', label: 'São José de Mipibu' },
-    { value: 'São José do Campestre', label: 'São José do Campestre' },
-    { value: 'São José do Seridó', label: 'São José do Seridó' },
-    { value: 'São Miguel', label: 'São Miguel' },
-    { value: 'São Miguel do Gostoso', label: 'São Miguel do Gostoso' },
-    { value: 'São Paulo do Potengi', label: 'São Paulo do Potengi' },
-    { value: 'São Pedro', label: 'São Pedro' },
-    { value: 'São Rafael', label: 'São Rafael' },
-    { value: 'São Tomé', label: 'São Tomé' },
-    { value: 'São Vicente', label: 'São Vicente' },
-    { value: 'Senador Elói de Souza', label: 'Senador Elói de Souza' },
-    { value: 'Senador Georgino Avelino', label: 'Senador Georgino Avelino' },
-    { value: 'Serra Caiada', label: 'Serra Caiada' },
-    { value: 'Serra de São Bento', label: 'Serra de São Bento' },
-    { value: 'Serra do Mel', label: 'Serra do Mel' },
-    { value: 'Serra Negra do Norte', label: 'Serra Negra do Norte' },
-    { value: 'Serrinha', label: 'Serrinha' },
-    { value: 'Serrinha dos Pintos', label: 'Serrinha dos Pintos' },
-    { value: 'Severiano Melo', label: 'Severiano Melo' },
-    { value: 'Sítio Novo', label: 'Sítio Novo' },
-    { value: 'Taboleiro Grande', label: 'Taboleiro Grande' },
-    { value: 'Taipu', label: 'Taipu' },
-    { value: 'Tangará', label: 'Tangará' },
-    { value: 'Tenente Ananias', label: 'Tenente Ananias' },
-    { value: 'Tenente Laurentino Cruz', label: 'Tenente Laurentino Cruz' },
-    { value: 'Tibau', label: 'Tibau' },
-    { value: 'Tibau do Sul', label: 'Tibau do Sul' },
-    { value: 'Timbaúba dos Batistas', label: 'Timbaúba dos Batistas' },
-    { value: 'Touros', label: 'Touros' },
-    { value: 'Triunfo Potiguar', label: 'Triunfo Potiguar' },
-    { value: 'Umarizal', label: 'Umarizal' },
-    { value: 'Upanema', label: 'Upanema' },
-    { value: 'Várzea', label: 'Várzea' },
-    { value: 'Venha-Ver', label: 'Venha-Ver' },
-    { value: 'Vera Cruz', label: 'Vera Cruz' },
-    { value: 'Viçosa', label: 'Viçosa' },
-    { value: 'Vila Flor', label: 'Vila Flor' },
-  ];
-
   const options6 = [
     { value: 'Boca de Urna', label: 'Boca de Urna' },
     {
@@ -263,8 +90,22 @@ const Dashboard: React.FC = () => {
     { value: 'Outro', label: 'Outro' },
   ];
 
+  interface localInicial {
+    id: string;
+    nome: string;
+    label: string;
+    municipio: string;
+  }
+
   const { handleSubmit, control } = useForm<any>();
   const { cpf } = useAuth();
+  // const localInicial = {
+  //   id: 0,
+  //   nome: 'inicio',
+  //   label: 'Local',
+  //   municipio: 'inicio',
+  // };
+  const [selectedLocal, setSelectedLocal] = useState<localInicial | null>();
 
   const customStyles = {
     content: {
@@ -279,8 +120,18 @@ const Dashboard: React.FC = () => {
 
   const handlesubmit = async (data: any) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
+
+    const local = selectedLocal?.id;
+
+    if (!local) {
+      console.log('local eh obrigatorio');
+    }
+    Object.assign(data, { local });
+
+    console.log(data);
+
     await api
-      .post('relatorio2', {
+      .post('relatorio', {
         cpf,
         data,
       })
@@ -295,27 +146,35 @@ const Dashboard: React.FC = () => {
   };
 
   const mapResponseToValuesAndLabels = (data: {
-    id: any;
-    nome: any;
-    municipio: any;
+    id: number;
+    nome: string;
+    municipio: string;
   }) => ({
     value: `${data.nome} - ${data.municipio}`,
     label: `${data.nome} - ${data.municipio}`,
     id: data.id,
   });
 
+  const handelLocalChange = (event: SingleValue<localInicial>) => {
+    console.log(event);
+    setSelectedLocal(event);
+  };
   // eslint-disable-next-line no-shadow
   async function loadCidade(value: string) {
-    const data = await axios(`http://10.0.0.198:3333/validar`, {
-      method: 'POST',
-      data: {
+    const data = await api
+      .post('validar', {
         cidade: value.toUpperCase(),
-      },
-    })
+      })
       .then(res => res.data.res)
       .then(res => res.map(mapResponseToValuesAndLabels));
 
-    console.log(data);
+    // await axios(`http://10.0.0.198:3333/validar`, {
+    //   method: 'POST',
+    //   data: {
+    //     cidade: value.toUpperCase(),
+    //   },
+    // })
+    // console.log({ data });
     return data;
   }
 
@@ -385,24 +244,27 @@ const Dashboard: React.FC = () => {
               render={({ field }) => {
                 return (
                   <div>
-                    <strong>Cidade *:</strong>
+                    <strong>Local *:</strong>
                     <AsyncSelect
                       {...field}
                       cacheOptions
                       loadOptions={loadCidade}
-                      onInputChange={data => {
-                        console.log(data);
-                      }}
-                      onChange={data => {
-                        console.log(data);
-                      }}
+                      // onInputChange={data => data}
+                      onChange={handelLocalChange}
+                      // console.log(data);
+                      // if (data) {
+                      //   setSelectdLocal(data);
+                      // }
+                      // console.log(selectdLocal);
+
+                      // value={selectdLocal}
                       defaultOptions
                     />
                   </div>
                 );
               }}
-              rules={{ required: true }}
-              name="cidade"
+              // rules={{ required: true }}
+              name="local"
             />
 
             <Controller
