@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React, { useCallback, useRef } from 'react';
-import { FiMail, FiLock } from 'react-icons/fi';
-import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import * as Yup from 'yup';
+import { Form } from '@unform/web';
+import React, { useCallback, useRef } from 'react';
+import { FiLock, FiMail } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
 
 import { useAuth } from '../../hooks/Auth';
 import { useToast } from '../../hooks/Toast';
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import logoImg from '../../assets/logo.svg';
+import logoImg from '../../assets/eleicoes.svg';
 
-import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Input from '../../components/Input';
 
-import { Container, Content, Background, AnimatedContainer } from './styles';
+import { AnimatedContainer, Background, Container, Content } from './styles';
 
 interface SignInFormData {
   cpf: string;
@@ -66,7 +66,7 @@ const SignIn: React.FC = () => {
     <Container>
       <Content>
         <AnimatedContainer>
-          <img src={logoImg} alt="GoBarber" />
+          <img src={logoImg} width={250} alt="eleições2022" />
           <Form onSubmit={handlesubmit} ref={formRef}>
             <h1>Entrar</h1>
 

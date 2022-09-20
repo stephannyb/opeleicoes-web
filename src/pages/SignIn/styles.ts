@@ -1,5 +1,5 @@
-import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
+import styled, { keyframes } from 'styled-components';
 import SignInBackgroundImg from '../../assets/sign-in-background.png';
 
 export const Container = styled.div`
@@ -37,8 +37,12 @@ export const AnimatedContainer = styled.div`
 
   animation: ${apperFromLeft} 1s;
 
+  img {
+    margin-top: 5rem;
+  }
+
   form {
-    margin: 80px 0;
+    margin: 40px 0;
     width: 340px;
     text-align: center;
 
@@ -66,10 +70,6 @@ export const AnimatedContainer = styled.div`
     transition: color 0.2s;
     display: flex;
     align-items: center;
-
-    svg {
-      margin-right: 16px;
-    }
 
     &:hover {
       color: ${shade(0.2, '#ff9000')};

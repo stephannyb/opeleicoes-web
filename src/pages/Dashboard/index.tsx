@@ -7,7 +7,7 @@ import Select, { SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import okImg from '../../assets/correct.png';
 import notOkImg from '../../assets/cross.png';
-import logoImg from '../../assets/logo.svg';
+import logoImg from '../../assets/eleicoes.svg';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import { useAuth } from '../../hooks/Auth';
@@ -82,10 +82,11 @@ const Dashboard: React.FC = () => {
   ];
 
   interface localInicial {
-    id: string;
-    nome: string;
+    // id: string;
+    // nome: string;
+    value: string;
     label: string;
-    municipio: string;
+    // municipio: string;
   }
 
   const { control } = useForm();
@@ -105,7 +106,7 @@ const Dashboard: React.FC = () => {
   };
 
   const onsubmit = async (data: any) => {
-    const local = selectedLocal?.id;
+    const local = selectedLocal?.value;
 
     if (!local) {
       console.log('local eh obrigatorio');
