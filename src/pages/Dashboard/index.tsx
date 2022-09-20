@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form } from '@unform/web';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiPower } from 'react-icons/fi';
 import Modal from 'react-modal';
@@ -17,79 +17,87 @@ import { useAuth } from '../../hooks/Auth';
 import api from '../../services/api';
 import { Container, Content, Header, HeaderContent, Schedule } from './styles';
 
+const options2 = [
+  { value: '1º BPM', label: '1º BPM' },
+  { value: '2º BPM', label: '2º BPM' },
+  { value: '3º BPM', label: '3º BPM' },
+  { value: '4º BPM', label: '4º BPM' },
+  { value: '5º BPM', label: '5º BPM' },
+  { value: '6º BPM', label: '6º BPM' },
+  { value: '7º BPM', label: '7º BPM' },
+  { value: '8º BPM', label: '8º BPM' },
+  { value: '9º BPM', label: '9º BPM' },
+  { value: '10º BPM', label: '10º BPM' },
+  { value: '11º BPM', label: '11º BPM' },
+  { value: '12º BPM', label: '12º BPM' },
+  { value: '13º BPM', label: '13º BPM' },
+  { value: '14º BPM', label: '14º BPM' },
+  { value: '15º BPM', label: '15º BPM' },
+  { value: '16º BPM', label: '16º BPM' },
+  { value: '1ª CIPM', label: '1ª CIPM' },
+  { value: '2ª CIPM', label: '2ª CIPM' },
+  { value: '3ª CIPM', label: '3ª CIPM' },
+  { value: '4ª CIPM', label: '4ª CIPM' },
+  { value: '5ª CIPM', label: '5ª CIPM' },
+  { value: '6ª CIPM', label: '6ª CIPM' },
+  { value: '7ª CIPM', label: '7ª CIPM' },
+  { value: '8ª CIPM', label: '8ª CIPM' },
+  { value: '9ª CIPM', label: '9ª CIPM' },
+  { value: '10ª CIPM', label: '10ª CIPM' },
+];
+
+const options6 = [
+  { value: 'Boca de Urna', label: 'Boca de Urna' },
+  {
+    value: 'Transporte Ilegal de Eleitores',
+    label: 'Transporte Ilegal de Eleitores',
+  },
+  { value: 'Compra de Votos', label: 'Compra de Votos' },
+  { value: 'Propaganda Ilegal', label: 'Propaganda Ilegal' },
+  {
+    value: 'Integrante da Mesa com Camisa de Partido',
+    label: 'Integrante da Mesa com Camisa de Partido',
+  },
+  { value: 'Apreensão de Material', label: 'Apreensão de Material' },
+  { value: 'Celular em Urna', label: 'Celular em Urna' },
+  { value: 'Desordem', label: 'Desordem' },
+  { value: 'Desacato', label: 'Desacato' },
+  { value: 'Desobediencia', label: 'Desobediência' },
+  { value: 'Porte Ilegal de Arma', label: 'Porte Ilegal de Arma' },
+  { value: 'Outros', label: 'Outro' },
+];
+
+const options7 = [
+  { value: 'Conduzido a Delegacia', label: 'Conduzido a Delegacia' },
+  {
+    value: 'Conduzido ao Juiz Eleitoral',
+    label: 'Conduzido ao Juiz Eleitoral',
+  },
+  { value: 'Prisão em Flagrante', label: 'Prisão em Flagrante' },
+  { value: 'Resolvido no Local', label: 'Resolvido no Local' },
+  { value: 'Outro', label: 'Outro' },
+];
+interface localInicial {
+  // id: string;
+  // nome: string;
+  value: string;
+  label: string;
+}
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
 const Dashboard: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [erro, setErro] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
   const { signOut } = useAuth();
-
-  const options2 = [
-    { value: '1º BPM', label: '1º BPM' },
-    { value: '2º BPM', label: '2º BPM' },
-    { value: '3º BPM', label: '3º BPM' },
-    { value: '4º BPM', label: '4º BPM' },
-    { value: '5º BPM', label: '5º BPM' },
-    { value: '6º BPM', label: '6º BPM' },
-    { value: '7º BPM', label: '7º BPM' },
-    { value: '8º BPM', label: '8º BPM' },
-    { value: '9º BPM', label: '9º BPM' },
-    { value: '10º BPM', label: '10º BPM' },
-    { value: '11º BPM', label: '11º BPM' },
-    { value: '12º BPM', label: '12º BPM' },
-    { value: '13º BPM', label: '13º BPM' },
-    { value: '14º BPM', label: '14º BPM' },
-    { value: '15º BPM', label: '15º BPM' },
-    { value: '16º BPM', label: '16º BPM' },
-    { value: '1ª CIPM', label: '1ª CIPM' },
-    { value: '2ª CIPM', label: '2ª CIPM' },
-    { value: '3ª CIPM', label: '3ª CIPM' },
-    { value: '4ª CIPM', label: '4ª CIPM' },
-    { value: '5ª CIPM', label: '5ª CIPM' },
-    { value: '6ª CIPM', label: '6ª CIPM' },
-    { value: '7ª CIPM', label: '7ª CIPM' },
-    { value: '8ª CIPM', label: '8ª CIPM' },
-    { value: '9ª CIPM', label: '9ª CIPM' },
-    { value: '10ª CIPM', label: '10ª CIPM' },
-  ];
-
-  const options6 = [
-    { value: 'Boca de Urna', label: 'Boca de Urna' },
-    {
-      value: 'Transporte Ilegal de Eleitores',
-      label: 'Transporte Ilegal de Eleitores',
-    },
-    { value: 'Compra de Votos', label: 'Compra de Votos' },
-    { value: 'Propaganda Ilegal', label: 'Propaganda Ilegal' },
-    {
-      value: 'Integrante da Mesa com Camisa de Partido',
-      label: 'Integrante da Mesa com Camisa de Partido',
-    },
-    { value: 'Apreensão de Material', label: 'Apreensão de Material' },
-    { value: 'Celular em Urna', label: 'Celular em Urna' },
-    { value: 'Desordem', label: 'Desordem' },
-    { value: 'Desacato', label: 'Desacato' },
-    { value: 'Desobediencia', label: 'Desobediência' },
-    { value: 'Porte Ilegal de Arma', label: 'Porte Ilegal de Arma' },
-    { value: 'Outros', label: 'Outro' },
-  ];
-
-  const options7 = [
-    { value: 'Conduzido a Delegacia', label: 'Conduzido a Delegacia' },
-    {
-      value: 'Conduzido ao Juiz Eleitoral',
-      label: 'Conduzido ao Juiz Eleitoral',
-    },
-    { value: 'Prisão em Flagrante', label: 'Prisão em Flagrante' },
-    { value: 'Resolvido no Local', label: 'Resolvido no Local' },
-    { value: 'Outro', label: 'Outro' },
-  ];
-
-  interface localInicial {
-    // id: string;
-    // nome: string;
-    value: string;
-    label: string;
-  }
 
   const { control } = useForm<any>();
   const { cpf } = useAuth();
@@ -99,49 +107,73 @@ const Dashboard: React.FC = () => {
   const [ocorrencia, selectedOocorrencia] = useState<string | null>();
   const [desfecho, selectedDesfecho] = useState<string | null>();
 
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
+  const handleSubmit = useCallback(
+    async (data: any) => {
+      const local = selectedLocal?.value;
+      if (!local) {
+        console.log('local eh obrigatorio');
+      }
+      if (!opm) {
+        console.log('opm eh obrigatorio');
+      }
+      if (!ocorrencia) {
+        console.log('ocorrencia eh obrigatorio');
+      }
+      if (!desfecho) {
+        console.log('desfecho eh obrigatorio');
+      }
+      Object.assign(data, { local }, { opm }, { desfecho }, { ocorrencia });
+
+      await api
+        .post('relatorio', {
+          cpf,
+          data,
+        })
+        .then(() => {
+          // const k = res.config.data;
+          console.log('sucess');
+        })
+        .catch(err => {
+          setErro(true);
+          setErrorMsg(err.response.data);
+          console.log(err.response.data);
+        });
     },
-  };
+    [cpf, desfecho, ocorrencia, opm, selectedLocal],
+  );
 
-  const handlesubmit = async (data: any) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const local = selectedLocal?.value;
-    if (!local) {
-      console.log('local eh obrigatorio');
-    }
-    if (!opm) {
-      console.log('opm eh obrigatorio');
-    }
-    if (!ocorrencia) {
-      console.log('ocorrencia eh obrigatorio');
-    }
-    if (!desfecho) {
-      console.log('desfecho eh obrigatorio');
-    }
-    Object.assign(data, { local }, { opm }, { desfecho }, { ocorrencia });
+  // const handlesubmit = async (data: any) => {
+  //   // eslint-disable-next-line react-hooks/rules-of-hooks
+  //   const local = selectedLocal?.value;
+  //   if (!local) {
+  //     console.log('local eh obrigatorio');
+  //   }
+  //   if (!opm) {
+  //     console.log('opm eh obrigatorio');
+  //   }
+  //   if (!ocorrencia) {
+  //     console.log('ocorrencia eh obrigatorio');
+  //   }
+  //   if (!desfecho) {
+  //     console.log('desfecho eh obrigatorio');
+  //   }
+  //   Object.assign(data, { local }, { opm }, { desfecho }, { ocorrencia });
 
-    await api
-      .post('relatorio', {
-        cpf,
-        data,
-      })
-      .then(() => {
-        // const k = res.config.data;
-        console.log('sucess');
-      })
-      .catch(err => {
-        setErro(true);
-        setErrorMsg(err.response.data);
-        console.log(err.response.data);
-      });
-  };
+  //   await api
+  //     .post('relatorio', {
+  //       cpf,
+  //       data,
+  //     })
+  //     .then(() => {
+  //       // const k = res.config.data;
+  //       console.log('sucess');
+  //     })
+  //     .catch(err => {
+  //       setErro(true);
+  //       setErrorMsg(err.response.data);
+  //       console.log(err.response.data);
+  //     });
+  // };
 
   const mapResponseToValuesAndLabels = (data: {
     id: any;
@@ -194,7 +226,7 @@ const Dashboard: React.FC = () => {
         <Schedule>
           <h1>Operação Eleições 2022 - 1º TURNO</h1>
 
-          <Form onSubmit={handlesubmit}>
+          <Form onSubmit={handleSubmit}>
             <Controller
               control={control}
               render={({ field: { onChange, value } }) => {

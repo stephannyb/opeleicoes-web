@@ -5,21 +5,21 @@ import Dashboard from '../pages/Dashboard';
 import ForgotPassword from '../pages/ForgotPassword';
 import ResetPassword from '../pages/ResetPassword';
 import SignIn from '../pages/SignIn';
-import SignUp from '../pages/SignUp';
+// import SignUp from '../pages/SignUp';
 
-import Listar from '../pages/Listar';
+// import Listar from '../pages/Listar';
 import Route from './Route';
 
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={SignIn} />
-    <Route path="/signup" component={SignUp} />
+    {/* <Route path="/signup" component={SignUp} /> */}
     <Route path="/forgot-password" component={ForgotPassword} />
     <Route path="/reset-password" component={ResetPassword} />
 
     <Route path="/dashboard" component={Dashboard} isPrivate />
-    <Route path="/relatorio" component={Dashboard} isPrivate />
-    <Route path="/listar" component={Listar} isPrivate />
+    {/* <Route path="/relatorio" component={Dashboard} isPrivate />
+    <Route path="/listar" component={Listar} isPrivate /> */}
   </Switch>
 );
 

@@ -43,7 +43,7 @@ const SignIn: React.FC = () => {
 
         await signIn({ cpf: data.cpf, password: data.password });
 
-        history.push('/relatorio');
+        history.push('/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
