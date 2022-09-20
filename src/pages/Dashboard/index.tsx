@@ -1,6 +1,9 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form } from '@unform/web';
 import React, { useState } from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { FiPower } from 'react-icons/fi';
 import Modal from 'react-modal';
 import Select, { SingleValue } from 'react-select';
@@ -82,16 +85,19 @@ const Dashboard: React.FC = () => {
   ];
 
   interface localInicial {
-    id: string;
-    nome: string;
+    // id: string;
+    // nome: string;
+    value: string;
     label: string;
-    municipio: string;
   }
 
-  const { control } = useForm();
-  const methods = useForm();
+  const { control } = useForm<any>();
   const { cpf } = useAuth();
   const [selectedLocal, setSelectedLocal] = useState<localInicial | null>();
+
+  const [opm, selectedOpm] = useState<string | null>();
+  const [ocorrencia, selectedOocorrencia] = useState<string | null>();
+  const [desfecho, selectedDesfecho] = useState<string | null>();
 
   const customStyles = {
     content: {
@@ -104,24 +110,31 @@ const Dashboard: React.FC = () => {
     },
   };
 
-  const onsubmit = async (data: any) => {
-    const local = selectedLocal?.id;
-
+  const handlesubmit = async (data: any) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const local = selectedLocal?.value;
     if (!local) {
       console.log('local eh obrigatorio');
     }
-    Object.assign(data, { local });
-
-    console.log(data);
+    if (!opm) {
+      console.log('opm eh obrigatorio');
+    }
+    if (!ocorrencia) {
+      console.log('ocorrencia eh obrigatorio');
+    }
+    if (!desfecho) {
+      console.log('desfecho eh obrigatorio');
+    }
+    Object.assign(data, { local }, { opm }, { desfecho }, { ocorrencia });
 
     await api
       .post('relatorio', {
         cpf,
         data,
       })
-      .then(res => {
-        const k = res.config.data;
-        console.log(k);
+      .then(() => {
+        // const k = res.config.data;
+        console.log('sucess');
       })
       .catch(err => {
         setErro(true);
@@ -131,18 +144,14 @@ const Dashboard: React.FC = () => {
   };
 
   const mapResponseToValuesAndLabels = (data: {
-    id: number;
-    nome: string;
-    municipio: string;
+    id: any;
+    nome: any;
+    municipio: any;
   }) => ({
     value: data.id,
     label: `${data.nome} - ${data.municipio}`,
   });
 
-  const handelLocalChange = (event: SingleValue<localInicial>) => {
-    console.log(event);
-    setSelectedLocal(event);
-  };
   // eslint-disable-next-line no-shadow
   async function loadCidade(value: string) {
     const data = await api
@@ -153,6 +162,10 @@ const Dashboard: React.FC = () => {
       .then(res => res.map(mapResponseToValuesAndLabels));
     return data;
   }
+
+  const handelLocalChange = (event: SingleValue<localInicial>) => {
+    setSelectedLocal(event);
+  };
 
   function refreshPage() {
     window.location.reload();
@@ -181,162 +194,170 @@ const Dashboard: React.FC = () => {
         <Schedule>
           <h1>Operação Eleições 2022 - 1º TURNO</h1>
 
-          <FormProvider {...methods}>
-            <Form onSubmit={methods.handleSubmit(onsubmit)}>
-              <Controller
-                control={control}
-                render={({ field: { onChange, value } }) => {
-                  const opm = options2.find(
-                    (c: { value: any }) => c.value === value,
-                  );
-                  const handleSelectChange = (selectedOption: any | null) => {
-                    onChange(selectedOption?.value);
-                  };
-                  return (
-                    <div>
-                      <strong>OPM *:</strong>
-                      <Select
-                        value={opm}
-                        options={options2}
-                        placeholder="OPM"
-                        onChange={handleSelectChange}
-                        theme={theme => ({
-                          ...theme,
-                          borderRadius: 10,
-                          colors: {
-                            ...theme.colors,
-                            primary25: 'orange',
-                            primary: 'orange',
-                          },
-                        })}
-                      />
-                    </div>
-                  );
-                }}
-                rules={{ required: true }}
-                name="opm"
-              />
+          <Form onSubmit={handlesubmit}>
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const opm = options2.find(
+                  (c: { value: any }) => c.value === value,
+                );
+                // eslint-disable-next-line no-shadow
+                const handleSelectChange = (selectedOption: any | null) => {
+                  if (selectedOption) {
+                    selectedOpm(selectedOption?.value);
+                  }
+                  onChange(selectedOption?.value);
+                };
+                return (
+                  <div>
+                    <strong>OPM *:</strong>
+                    <Select
+                      value={opm}
+                      options={options2}
+                      placeholder="OPM"
+                      onChange={handleSelectChange}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="opm"
+            />
 
-              <Controller
-                control={control}
-                render={({ field }) => {
-                  return (
-                    <div>
-                      <strong>Local *:</strong>
-                      <AsyncSelect
-                        {...field}
-                        cacheOptions
-                        placeholder="Local"
-                        loadOptions={loadCidade}
-                        onChange={handelLocalChange}
-                        theme={theme => ({
-                          ...theme,
-                          borderRadius: 10,
-                          colors: {
-                            ...theme.colors,
-                            primary25: 'orange',
-                            primary: 'orange',
-                          },
-                        })}
-                        defaultOptions
-                      />
-                    </div>
-                  );
-                }}
-                rules={{ required: true }}
-                name="local"
-              />
+            <Controller
+              control={control}
+              render={({ field }) => {
+                return (
+                  <div>
+                    <strong>Local *:</strong>
+                    <AsyncSelect
+                      {...field}
+                      cacheOptions
+                      placeholder="Local"
+                      loadOptions={loadCidade}
+                      onChange={handelLocalChange}
+                      defaultOptions
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="cidade"
+            />
 
-              <Controller
-                control={control}
-                render={({ field: { onChange, value } }) => {
-                  const ocorrencia = options6.find(
-                    (c: { value: any }) => c.value === value,
-                  );
-                  const handleSelectChange = (selectedOption: any | null) => {
-                    onChange(selectedOption?.value);
-                  };
-                  return (
-                    <div>
-                      <strong>Ocorrência *:</strong>
-                      <Select
-                        value={ocorrencia}
-                        options={options6}
-                        placeholder="Ocorrência"
-                        onChange={handleSelectChange}
-                        theme={theme => ({
-                          ...theme,
-                          borderRadius: 10,
-                          colors: {
-                            ...theme.colors,
-                            primary25: 'orange',
-                            primary: 'orange',
-                          },
-                        })}
-                      />
-                    </div>
-                  );
-                }}
-                rules={{ required: true }}
-                name="ocorrencia"
-              />
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const ocorrencia = options6.find(
+                  (c: { value: any }) => c.value === value,
+                );
+                const handleSelectChange = (selectedOption: any | null) => {
+                  if (selectedOption) {
+                    selectedOocorrencia(selectedOption?.value);
+                  }
+                  onChange(selectedOption?.value);
+                };
+                return (
+                  <div>
+                    <strong>Ocorrência *:</strong>
+                    <Select
+                      value={ocorrencia}
+                      options={options6}
+                      placeholder="Ocorrência"
+                      onChange={handleSelectChange}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="ocorrencia"
+            />
 
-              <Controller
-                control={control}
-                name="descricao"
-                render={({ field }) => {
-                  return (
-                    <div>
-                      <Input
-                        {...field}
-                        name="descricao"
-                        type="text"
-                        placeholder="Descrição"
-                      />
-                    </div>
-                  );
-                }}
-              />
+            <Controller
+              control={control}
+              name="descricao"
+              render={({ field }) => {
+                return (
+                  <div>
+                    <Input
+                      {...field}
+                      name="descricao"
+                      type="text"
+                      placeholder="Descrição"
+                    />
+                  </div>
+                );
+              }}
+            />
 
-              <Controller
-                control={control}
-                render={({ field: { onChange, value } }) => {
-                  const desfecho = options7.find(
-                    (c: { value: any }) => c.value === value,
-                  );
-                  const handleSelectChange = (selectedOption: any | null) => {
-                    onChange(selectedOption?.value);
-                  };
-                  return (
-                    <div>
-                      <strong>Desfecho :</strong>
-                      <Select
-                        value={desfecho}
-                        options={options7}
-                        placeholder="Desfecho"
-                        onChange={handleSelectChange}
-                        theme={theme => ({
-                          ...theme,
-                          borderRadius: 10,
-                          colors: {
-                            ...theme.colors,
-                            primary25: 'orange',
-                            primary: 'orange',
-                          },
-                        })}
-                      />
-                    </div>
-                  );
-                }}
-                rules={{ required: false }}
-                name="desfecho"
-              />
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const desfecho = options7.find(
+                  (c: { value: any }) => c.value === value,
+                );
+                const handleSelectChange = (selectedOption: any | null) => {
+                  if (selectedOption) {
+                    selectedDesfecho(selectedOption?.value);
+                  }
+                  onChange(selectedOption?.value);
+                };
+                return (
+                  <div>
+                    <strong>Desfecho :</strong>
+                    <Select
+                      value={desfecho}
+                      options={options7}
+                      placeholder="Desfecho"
+                      onChange={handleSelectChange}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: false }}
+              name="desfecho"
+            />
 
-              <Button onClick={openModal} type="submit">
-                Enviar
-              </Button>
-            </Form>
-          </FormProvider>
+            <Button onClick={openModal} type="submit">
+              Enviar
+            </Button>
+          </Form>
 
           <Modal isOpen={open} style={customStyles}>
             {erro === true ? (
