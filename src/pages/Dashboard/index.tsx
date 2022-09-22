@@ -2,10 +2,11 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form } from '@unform/web';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { FiPower } from 'react-icons/fi';
+import { FiList, FiPower } from 'react-icons/fi';
 import Modal from 'react-modal';
+import { useHistory } from 'react-router-dom';
 import Select, { SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import okImg from '../../assets/correct.png';
@@ -96,8 +97,10 @@ const customStyles = {
 const Dashboard: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [erro, setErro] = useState(false);
+  const [showValidar, setShowValidar] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
   const { signOut } = useAuth();
+  const history = useHistory();
 
   const { control } = useForm<any>();
   const { cpf } = useAuth();
@@ -175,6 +178,20 @@ const Dashboard: React.FC = () => {
   //     });
   // };
 
+  async function isFiscal() {
+    const data = await api
+      .post('fiscais', {
+        cpf,
+      })
+      .then(res => setShowValidar(res.data));
+    return data;
+  }
+
+  useEffect(() => {
+    // Update the document title using the browser API
+    isFiscal();
+  });
+
   const mapResponseToValuesAndLabels = (data: {
     id: any;
     nome: any;
@@ -207,15 +224,21 @@ const Dashboard: React.FC = () => {
     setOpen(true);
   }
 
+  const listar = () => {
+    history.push('/validar');
+  };
+
   return (
     <Container>
       <Header>
         <HeaderContent>
           <img src={logoImg} alt="Operação Eleições" />
           <div>
-            {/* <button type="button" onClick={listar}>
-              <FiList />
-            </button> */}
+            {showValidar ? (
+              <button type="button" onClick={listar}>
+                <FiList />
+              </button>
+            ) : null}
             <button type="button" onClick={signOut}>
               <FiPower />
             </button>

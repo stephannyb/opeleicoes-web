@@ -25,7 +25,6 @@ interface SignInFormData {
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
-
   const { signIn } = useAuth();
   const { addToast } = useToast();
 
@@ -42,6 +41,7 @@ const SignIn: React.FC = () => {
         await schema.validate(data, { abortEarly: false });
 
         await signIn({ cpf: data.cpf, password: data.password });
+        localStorage.setItem('@opEleicoes:cpf', data.cpf);
 
         history.push('/dashboard');
       } catch (err) {

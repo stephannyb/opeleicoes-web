@@ -3,6 +3,7 @@ import { Switch } from 'react-router-dom';
 
 import Dashboard from '../pages/Dashboard';
 import ForgotPassword from '../pages/ForgotPassword';
+import Listar from '../pages/Listar';
 import ResetPassword from '../pages/ResetPassword';
 import SignIn from '../pages/SignIn';
 // import SignUp from '../pages/SignUp';
@@ -18,8 +19,8 @@ const Routes: React.FC = () => (
     <Route path="/reset-password" component={ResetPassword} />
 
     <Route path="/dashboard" component={Dashboard} isPrivate />
-    {/* <Route path="/relatorio" component={Dashboard} isPrivate />
-    <Route path="/listar" component={Listar} isPrivate /> */}
+    {/* <Route path="/relatorio" component={Dashboard} isPrivate /> */}
+    <Route path="/validar" component={Listar} isPrivate />
   </Switch>
 );
 
