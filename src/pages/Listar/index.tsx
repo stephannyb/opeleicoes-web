@@ -17,23 +17,40 @@ import {
 import api from '../../services/api';
 import { Container, Content, Header, HeaderContent, Schedule } from './styles';
 
-interface Items {
-  cidade: string;
-  comando: string;
+interface ItemsLocal {
+  aptos: string;
+  bairro: string;
+  cep: string;
+  codigo: string;
+  endereco: string;
+  id: string;
+  latitude: string;
+  longitude: string;
+  municipio: string;
+  nome: string;
+  sessoes: string;
+  sessoes_previstas: string;
+  zona: string;
+}
+
+interface ItemsOcorrencia {
   descricao: string;
   desfecho: string;
   id: string;
-  ocorrencia: string;
   operacao: string;
-  opm: string;
+  opm_id: string;
   st_matricula: string;
   st_nomeguerra: string;
   st_postograduacao: string;
   st_telefonecelular: string;
-  tipo: string;
-  uf: string;
-  zona: string;
   status: string;
+  tipo_id: string;
+}
+
+interface ItemsTipo {
+  grupo_id: string;
+  id: string;
+  nome: string;
 }
 
 const Listar: React.FC = () => {
@@ -50,7 +67,9 @@ const Listar: React.FC = () => {
 
   const history = useHistory();
   const { handleSubmit, control } = useForm<any>();
-  const [card, setCard] = useState<Items>();
+  const [local, setLocal] = useState<ItemsLocal>();
+  const [ocorrencia, setOcorrencia] = useState<ItemsOcorrencia>();
+  const [tipo, setTipo] = useState<ItemsTipo>();
   const cpf = localStorage.getItem('@opEleicoes:cpf');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const formRef = useRef(null);
@@ -62,7 +81,9 @@ const Listar: React.FC = () => {
         ocId: data.id,
       })
       .then(res => {
-        setCard(res.data.res);
+        setLocal(res.data.local);
+        setOcorrencia(res.data.ocorrencia);
+        setTipo(res.data.tipo);
       })
       .catch(error => {
         console.log(error);
@@ -149,36 +170,36 @@ const Listar: React.FC = () => {
           <Modal isOpen={modalIsOpen} style={customStyles} ariaHideApp={false}>
             <TittleModal>
               <TextCard className="modal">
-                {`${card?.st_postograduacao} ${card?.st_nomeguerra} - ${card?.st_telefonecelular}`}
+                {`${ocorrencia?.st_postograduacao} ${ocorrencia?.st_nomeguerra} - ${ocorrencia?.st_telefonecelular}`}
               </TextCard>
               <Button className="close" onClick={() => setModalIsOpen(false)}>
                 X
               </Button>
             </TittleModal>
+            <TextCard className="modal">{`Ocorrência: ${tipo?.nome}`}</TextCard>
+            <TextCard className="modal">{`Cidade: ${local?.municipio}`}</TextCard>
+            <TextCard className="modal">{`Endereço: ${local?.endereco}. ${local?.bairro}`}</TextCard>
+            <TextCard className="modal">{`Local: ${local?.nome}`}</TextCard>
             <TextCard className="modal">
-              {`Ocorrência: ${card?.ocorrencia}`}
-            </TextCard>
-            <TextCard className="modal">{`Local: ${card?.cidade}`}</TextCard>
-            <TextCard className="modal">
-              {`Descrição: ${card?.descricao}`}
-            </TextCard>
-            <TextCard className="modal">
-              {`Desfecho: ${card?.desfecho}`}
+              {`Descrição: ${ocorrencia?.descricao}`}
             </TextCard>
             <TextCard className="modal">
-              {`Status: ${status(card?.status)}`}
+              {`Desfecho: ${ocorrencia?.desfecho}`}
+            </TextCard>
+            <TextCard className="modal">
+              {`Status: ${status(ocorrencia?.status)}`}
             </TextCard>
             <ModalContent>
               <Button
                 onClick={() => {
-                  validarOcorrencia(card?.id, 1);
+                  validarOcorrencia(ocorrencia?.id, 1);
                 }}
               >
                 Validar
               </Button>
               <Button
                 onClick={() => {
-                  validarOcorrencia(card?.id, 2);
+                  validarOcorrencia(ocorrencia?.id, 2);
                 }}
                 className="secondary"
               >
