@@ -58,6 +58,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         return axios
           .post(`https://rota.pm.rn.gov.br/api/login`, { cpf, password })
           .then(res => {
+            localStorage.setItem('@opEleicoes:cpf', cpf);
             return res.data.data;
           })
           .catch(() => {
@@ -73,8 +74,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@opEleicoes:token');
-    localStorage.removeItem('@opEleicoes:user');
+    localStorage.clear();
     setData({} as AuthState);
   }, []);
 

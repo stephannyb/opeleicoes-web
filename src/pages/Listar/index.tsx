@@ -14,7 +14,6 @@ import {
   TextCard,
   TittleModal
 } from '../../components/Panel/styles';
-import { useAuth } from '../../hooks/Auth';
 import api from '../../services/api';
 import { Container, Content, Header, HeaderContent, Schedule } from './styles';
 
@@ -34,6 +33,7 @@ interface Items {
   tipo: string;
   uf: string;
   zona: string;
+  status: string;
 }
 
 const Listar: React.FC = () => {
@@ -51,8 +51,7 @@ const Listar: React.FC = () => {
   const history = useHistory();
   const { handleSubmit, control } = useForm<any>();
   const [card, setCard] = useState<Items>();
-  const { cpf } = useAuth();
-  const [green, setGreen] = useState<boolean>(false);
+  const cpf = localStorage.getItem('@opEleicoes:cpf');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const formRef = useRef(null);
 
@@ -83,6 +82,7 @@ const Listar: React.FC = () => {
       })
       .then(res => {
         console.log(res.data.res);
+        window.location.reload();
       })
       .catch(error => {
         console.log(error);
@@ -138,25 +138,22 @@ const Listar: React.FC = () => {
           <Modal isOpen={modalIsOpen} style={customStyles} ariaHideApp={false}>
             <TittleModal>
               <TextCard className="modal">
-                {card?.st_postograduacao}
-                {card?.st_nomeguerra} {'-'} {card?.st_telefonecelular}
+                {`${card?.st_postograduacao} ${card?.st_nomeguerra} - ${card?.st_telefonecelular}`}
               </TextCard>
               <Button className="close" onClick={() => setModalIsOpen(false)}>
                 X
               </Button>
             </TittleModal>
             <TextCard className="modal">
-              Ocorrência:
-              {card?.ocorrencia}
+              {`Ocorrência: ${card?.ocorrencia}`}
             </TextCard>
             <TextCard className="modal">
-              Descrição:
-              {card?.descricao}
+              {`Descrição: ${card?.descricao}`}
             </TextCard>
             <TextCard className="modal">
-              Desfecho:
-              {card?.desfecho}
+              {`Desfecho: ${card?.desfecho}`}
             </TextCard>
+            <TextCard className="modal">{`Status: ${card?.status}`}</TextCard>
             <ModalContent>
               <Button
                 onClick={() => {

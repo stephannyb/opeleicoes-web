@@ -98,12 +98,12 @@ const Dashboard: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [erro, setErro] = useState(false);
   const [showValidar, setShowValidar] = useState(false);
-  const [errorMsg, setErrorMsg] = useState();
+  const [errorMsg, setErrorMsg] = useState('');
   const { signOut } = useAuth();
   const history = useHistory();
 
   const { control } = useForm<any>();
-  const { cpf } = useAuth();
+  const cpf = localStorage.getItem('@opEleicoes:cpf');
   const [selectedLocal, setSelectedLocal] = useState<localInicial | null>();
 
   const [opm, selectedOpm] = useState<string | null>();
@@ -145,39 +145,6 @@ const Dashboard: React.FC = () => {
     [cpf, desfecho, ocorrencia, opm, selectedLocal],
   );
 
-  // const handlesubmit = async (data: any) => {
-  //   // eslint-disable-next-line react-hooks/rules-of-hooks
-  //   const local = selectedLocal?.value;
-  //   if (!local) {
-  //     console.log('local eh obrigatorio');
-  //   }
-  //   if (!opm) {
-  //     console.log('opm eh obrigatorio');
-  //   }
-  //   if (!ocorrencia) {
-  //     console.log('ocorrencia eh obrigatorio');
-  //   }
-  //   if (!desfecho) {
-  //     console.log('desfecho eh obrigatorio');
-  //   }
-  //   Object.assign(data, { local }, { opm }, { desfecho }, { ocorrencia });
-
-  //   await api
-  //     .post('relatorio', {
-  //       cpf,
-  //       data,
-  //     })
-  //     .then(() => {
-  //       // const k = res.config.data;
-  //       console.log('sucess');
-  //     })
-  //     .catch(err => {
-  //       setErro(true);
-  //       setErrorMsg(err.response.data);
-  //       console.log(err.response.data);
-  //     });
-  // };
-
   async function isFiscal() {
     const data = await api
       .post('fiscais', {
@@ -188,7 +155,6 @@ const Dashboard: React.FC = () => {
   }
 
   useEffect(() => {
-    // Update the document title using the browser API
     isFiscal();
   });
 
