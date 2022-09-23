@@ -98,7 +98,18 @@ const Listar: React.FC = () => {
     history.push('/dashboard');
   };
 
-  console.log(card);
+  const status = (number: any) => {
+    if (number === 1) {
+      return 'Validado ✅';
+    }
+    if (number === 2) {
+      return 'Invalidado ❌';
+    }
+    if (number === 0) {
+      return 'Ainda não validado ❕';
+    }
+    return null;
+  };
 
   return (
     <Container>
@@ -147,13 +158,16 @@ const Listar: React.FC = () => {
             <TextCard className="modal">
               {`Ocorrência: ${card?.ocorrencia}`}
             </TextCard>
+            <TextCard className="modal">{`Local: ${card?.cidade}`}</TextCard>
             <TextCard className="modal">
               {`Descrição: ${card?.descricao}`}
             </TextCard>
             <TextCard className="modal">
               {`Desfecho: ${card?.desfecho}`}
             </TextCard>
-            <TextCard className="modal">{`Status: ${card?.status}`}</TextCard>
+            <TextCard className="modal">
+              {`Status: ${status(card?.status)}`}
+            </TextCard>
             <ModalContent>
               <Button
                 onClick={() => {
