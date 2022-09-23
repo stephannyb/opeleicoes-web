@@ -70,6 +70,7 @@ const Listar: React.FC = () => {
   const [local, setLocal] = useState<ItemsLocal>();
   const [ocorrencia, setOcorrencia] = useState<ItemsOcorrencia>();
   const [tipo, setTipo] = useState<ItemsTipo>();
+  const [erro, setErro] = useState();
   const cpf = localStorage.getItem('@opEleicoes:cpf');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const formRef = useRef(null);
@@ -84,9 +85,10 @@ const Listar: React.FC = () => {
         setLocal(res.data.local);
         setOcorrencia(res.data.ocorrencia);
         setTipo(res.data.tipo);
+        console.log(res);
       })
       .catch(error => {
-        console.log(error);
+        setErro(error.response.data);
       });
   };
 
@@ -169,43 +171,52 @@ const Listar: React.FC = () => {
           </Form>
           <Modal isOpen={modalIsOpen} style={customStyles} ariaHideApp={false}>
             <TittleModal>
-              <TextCard className="modal">
-                {`${ocorrencia?.st_postograduacao} ${ocorrencia?.st_nomeguerra} - ${ocorrencia?.st_telefonecelular}`}
-              </TextCard>
+              {erro ? (
+                <TextCard className="modal">{`${erro}`}</TextCard>
+              ) : (
+                <TextCard className="modal">
+                  {`${ocorrencia?.st_postograduacao} ${ocorrencia?.st_nomeguerra} - ${ocorrencia?.st_telefonecelular}`}
+                </TextCard>
+              )}
               <Button className="close" onClick={() => setModalIsOpen(false)}>
                 X
               </Button>
             </TittleModal>
-            <TextCard className="modal">{`Ocorrência: ${tipo?.nome}`}</TextCard>
-            <TextCard className="modal">{`Cidade: ${local?.municipio}`}</TextCard>
-            <TextCard className="modal">{`Endereço: ${local?.endereco}. ${local?.bairro}`}</TextCard>
-            <TextCard className="modal">{`Local: ${local?.nome}`}</TextCard>
-            <TextCard className="modal">
-              {`Descrição: ${ocorrencia?.descricao}`}
-            </TextCard>
-            <TextCard className="modal">
-              {`Desfecho: ${ocorrencia?.desfecho}`}
-            </TextCard>
-            <TextCard className="modal">
-              {`Status: ${status(ocorrencia?.status)}`}
-            </TextCard>
-            <ModalContent>
-              <Button
-                onClick={() => {
-                  validarOcorrencia(ocorrencia?.id, 1);
-                }}
-              >
-                Validar
-              </Button>
-              <Button
-                onClick={() => {
-                  validarOcorrencia(ocorrencia?.id, 2);
-                }}
-                className="secondary"
-              >
-                Invalidar
-              </Button>
-            </ModalContent>
+            {erro ? null : (
+              <>
+                <TextCard className="modal">{`Ocorrência: ${tipo?.nome}`}</TextCard>
+                <TextCard className="modal">{`Cidade: ${local?.municipio}`}</TextCard>
+                <TextCard className="modal">{`Endereço: ${local?.endereco}. ${local?.bairro}`}</TextCard>
+                <TextCard className="modal">{`Local: ${local?.nome}`}</TextCard>
+
+                <TextCard className="modal">
+                  {`Descrição: ${ocorrencia?.descricao}`}
+                </TextCard>
+                <TextCard className="modal">
+                  {`Desfecho: ${ocorrencia?.desfecho}`}
+                </TextCard>
+                <TextCard className="modal">
+                  {`Status: ${status(ocorrencia?.status)}`}
+                </TextCard>
+                <ModalContent>
+                  <Button
+                    onClick={() => {
+                      validarOcorrencia(ocorrencia?.id, 1);
+                    }}
+                  >
+                    Validar
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      validarOcorrencia(ocorrencia?.id, 2);
+                    }}
+                    className="secondary"
+                  >
+                    Invalidar
+                  </Button>
+                </ModalContent>
+              </>
+            )}
           </Modal>
         </Schedule>
       </Content>

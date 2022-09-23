@@ -14,6 +14,7 @@ import notOkImg from '../../assets/cross.png';
 import logoImg from '../../assets/eleicoes.svg';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import { TextCard } from '../../components/Panel/styles';
 import { useAuth } from '../../hooks/Auth';
 import api from '../../services/api';
 import { Container, Content, Header, HeaderContent, Schedule } from './styles';
@@ -96,9 +97,9 @@ const customStyles = {
 };
 const Dashboard: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const [erro, setErro] = useState(false);
   const [showValidar, setShowValidar] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [erro, setErro] = useState(false);
   const { signOut } = useAuth();
   const history = useHistory();
 
@@ -114,16 +115,16 @@ const Dashboard: React.FC = () => {
     async (data: any) => {
       const local = selectedLocal?.value;
       if (!local) {
-        console.log('local eh obrigatorio');
+        setErrorMsg('O campo LOCAL é obrigatorio');
       }
       if (!opm) {
-        console.log('opm eh obrigatorio');
+        setErrorMsg('O campo OPM é obrigatorio');
       }
       if (!ocorrencia) {
-        console.log('ocorrencia eh obrigatorio');
+        setErrorMsg('O campo OCORRÊNCIA é obrigatorio');
       }
       if (!desfecho) {
-        console.log('desfecho eh obrigatorio');
+        setErrorMsg('O campo DESFECHO é obrigatorio');
       }
       Object.assign(data, { local }, { opm }, { desfecho }, { ocorrencia });
 
@@ -138,8 +139,7 @@ const Dashboard: React.FC = () => {
         })
         .catch(err => {
           setErro(true);
-          setErrorMsg(err.response.data);
-          console.log(err.response.data);
+          console.log(err.config.data);
         });
     },
     [cpf, desfecho, ocorrencia, opm, selectedLocal],
@@ -231,7 +231,7 @@ const Dashboard: React.FC = () => {
                 };
                 return (
                   <div>
-                    <strong>OPM *:</strong>
+                    <strong>OPM* :</strong>
                     <Select
                       value={opm}
                       options={options2}
@@ -259,7 +259,7 @@ const Dashboard: React.FC = () => {
               render={({ field }) => {
                 return (
                   <div>
-                    <strong>Local *:</strong>
+                    <strong>Local* :</strong>
                     <AsyncSelect
                       {...field}
                       cacheOptions
@@ -298,7 +298,7 @@ const Dashboard: React.FC = () => {
                 };
                 return (
                   <div>
-                    <strong>Ocorrência *:</strong>
+                    <strong>Ocorrência* :</strong>
                     <Select
                       value={ocorrencia}
                       options={options6}
@@ -352,7 +352,7 @@ const Dashboard: React.FC = () => {
                 };
                 return (
                   <div>
-                    <strong>Desfecho :</strong>
+                    <strong>Desfecho* :</strong>
                     <Select
                       value={desfecho}
                       options={options7}
@@ -381,23 +381,31 @@ const Dashboard: React.FC = () => {
           </Form>
 
           <Modal isOpen={open} style={customStyles}>
-            {erro === true ? (
-              <img
-                style={{ display: 'flex' }}
-                src={notOkImg}
-                width={100}
-                alt="ok"
-              />
-            ) : (
-              <>
+            {erro ? (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
                 <img
-                  style={{ display: 'flex' }}
-                  src={okImg}
+                  style={{
+                    marginBottom: 10,
+                  }}
+                  src={notOkImg}
                   width={100}
                   alt="ok"
                 />
-                <h4>{errorMsg}</h4>
-              </>
+                <TextCard className="modal">{`${errorMsg}`}</TextCard>
+              </div>
+            ) : (
+              <img
+                style={{ display: 'flex' }}
+                src={okImg}
+                width={100}
+                alt="ok"
+              />
             )}
             <Button onClick={refreshPage}>OK</Button>
           </Modal>
