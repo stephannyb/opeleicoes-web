@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiPower } from 'react-icons/fi';
 import Modal from 'react-modal';
-import Select, { SingleValue } from 'react-select';
+import Select, { MultiValue, SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import okImg from '../../assets/correct.png';
 import notOkImg from '../../assets/cross.png';
@@ -78,8 +78,6 @@ const options7 = [
   { value: 'Outro', label: 'Outro' },
 ];
 interface localInicial {
-  // id: string;
-  // nome: string;
   value: string;
   label: string;
 }
@@ -102,6 +100,9 @@ const Dashboard: React.FC = () => {
   const { control } = useForm<any>();
   const { cpf } = useAuth();
   const [selectedLocal, setSelectedLocal] = useState<localInicial | null>();
+  const [selectedIndicadores, setSelectedIndicadores] = useState<
+    localInicial[]
+  >();
 
   const [opm, selectedOpm] = useState<string | null>();
   const [ocorrencia, selectedOocorrencia] = useState<string | null>();
@@ -122,7 +123,18 @@ const Dashboard: React.FC = () => {
       if (!desfecho) {
         console.log('desfecho eh obrigatorio');
       }
-      Object.assign(data, { local }, { opm }, { desfecho }, { ocorrencia });
+
+      if (!selectedIndicadores) {
+        console.log('Selecione pelo menos um indicador');
+      }
+      Object.assign(
+        data,
+        { local },
+        { opm },
+        { desfecho },
+        { ocorrencia },
+        { indicadores: selectedIndicadores },
+      );
 
       await api
         .post('relatorio', {
@@ -139,7 +151,7 @@ const Dashboard: React.FC = () => {
           console.log(err.response.data);
         });
     },
-    [cpf, desfecho, ocorrencia, opm, selectedLocal],
+    [cpf, desfecho, ocorrencia, opm, selectedIndicadores, selectedLocal],
   );
 
   // const handlesubmit = async (data: any) => {
@@ -197,6 +209,32 @@ const Dashboard: React.FC = () => {
 
   const handelLocalChange = (event: SingleValue<localInicial>) => {
     setSelectedLocal(event);
+  };
+
+  const mapResponseToValuesAndLabelsToIndicadores = (data: {
+    id: any;
+    nome: any;
+  }) => ({
+    value: data.id,
+    label: `${data.nome}`,
+  });
+  // eslint-disable-next-line no-shadow
+  async function loadIndicadores(value: string) {
+    const shearch = value.charAt(0).toUpperCase() + value.slice(1);
+    const data = await api
+      .post('indicadores', {
+        indicador: shearch,
+      })
+      .then(res => res.data.res)
+      .then(res => res.map(mapResponseToValuesAndLabelsToIndicadores));
+    return data;
+  }
+
+  const handelIndicadorChange = (event: MultiValue<localInicial>) => {
+    // console.log(event);
+    setSelectedIndicadores(event as localInicial[]);
+
+    // console.log(selectedIndicadores);
   };
 
   function refreshPage() {
@@ -330,6 +368,37 @@ const Dashboard: React.FC = () => {
               }}
               rules={{ required: true }}
               name="ocorrencia"
+            />
+
+            <Controller
+              control={control}
+              render={({ field }) => {
+                return (
+                  <div>
+                    <strong>Indicadores *:</strong>
+                    <AsyncSelect
+                      {...field}
+                      cacheOptions
+                      isMulti
+                      placeholder="Indicadores"
+                      loadOptions={loadIndicadores}
+                      onChange={handelIndicadorChange}
+                      defaultOptions
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 10,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'orange',
+                          primary: 'orange',
+                        },
+                      })}
+                    />
+                  </div>
+                );
+              }}
+              rules={{ required: true }}
+              name="indicador"
             />
 
             <Controller
