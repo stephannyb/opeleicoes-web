@@ -129,7 +129,7 @@ const Dashboard: React.FC = () => {
       }
 
       if (!selectedIndicadores) {
-        console.log('Selecione pelo menos um indicador');
+        setErrorMsg('Selecione pelo menos um indicador');
       }
       Object.assign(
         data,
@@ -364,7 +364,7 @@ const Dashboard: React.FC = () => {
               render={({ field }) => {
                 return (
                   <div>
-                    <strong>Indicadores *:</strong>
+                    <strong>Indicadores* :</strong>
                     <AsyncSelect
                       {...field}
                       cacheOptions
