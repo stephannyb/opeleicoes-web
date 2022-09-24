@@ -1,6 +1,8 @@
 import React from 'react';
 import {
-  Redirect, Route as ReactDOMRoute, RouteProps as ReactDOMRouteProps
+  Redirect,
+  Route as ReactDOMRoute,
+  RouteProps as ReactDOMRouteProps,
 } from 'react-router-dom';
 
 import { useAuth } from '../hooks/Auth';

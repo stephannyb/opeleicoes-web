@@ -5,17 +5,14 @@ import { Form } from '@unform/web';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiList, FiPower } from 'react-icons/fi';
-import Modal from 'react-modal';
 import { useHistory } from 'react-router-dom';
 import Select, { MultiValue, SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
-import okImg from '../../assets/correct.png';
-import notOkImg from '../../assets/cross.png';
 import logoImg from '../../assets/eleicoes.svg';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { TextCard } from '../../components/Panel/styles';
 import { useAuth } from '../../hooks/Auth';
+import { useToast } from '../../hooks/Toast';
 import api from '../../services/api';
 import { Container, Content, Header, HeaderContent, Schedule } from './styles';
 
@@ -83,26 +80,20 @@ interface localInicial {
   value: string;
   label: string;
 }
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-};
+
 const Dashboard: React.FC = () => {
-  const [open, setOpen] = useState(false);
   const [showValidar, setShowValidar] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
-  const [erro, setErro] = useState(false);
+
   const { signOut } = useAuth();
+  const { addToast } = useToast();
+
   const history = useHistory();
 
   const { control } = useForm<any>();
   const cpf = localStorage.getItem('@opEleicoes:cpf');
+
+  const [loading, setLoading] = useState(false);
+
   const [selectedLocal, setSelectedLocal] = useState<localInicial | null>();
   const [selectedIndicadores, setSelectedIndicadores] = useState<
     localInicial[]
@@ -115,22 +106,35 @@ const Dashboard: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: any) => {
       const local = selectedLocal?.value;
+      let errorMessage = '';
+
       if (!local) {
-        setErrorMsg('O campo LOCAL é obrigatorio');
+        errorMessage = 'O campo LOCAL é obrigatorio';
+        addToast({ title: 'Erro', description: errorMessage, type: 'error' });
       }
       if (!opm) {
-        setErrorMsg('O campo OPM é obrigatorio');
+        errorMessage = 'O campo OPM é obrigatorio';
+        addToast({ title: 'Erro', description: errorMessage, type: 'error' });
       }
       if (!ocorrencia) {
-        setErrorMsg('O campo OCORRÊNCIA é obrigatorio');
+        errorMessage = 'O campo OCORRÊNCIA é obrigatorio';
+        addToast({ title: 'Erro', description: errorMessage, type: 'error' });
       }
       if (!desfecho) {
-        setErrorMsg('O campo DESFECHO é obrigatorio');
+        errorMessage = 'O campo DESFECHO é obrigatorio';
+        addToast({ title: 'Erro', description: errorMessage, type: 'error' });
       }
 
-      if (!selectedIndicadores) {
-        setErrorMsg('Selecione pelo menos um indicador');
+      if (!selectedIndicadores?.length) {
+        errorMessage = 'Selecione pelo menos um indicador';
+        addToast({ title: 'Erro', description: errorMessage, type: 'error' });
       }
+
+      if (errorMessage) {
+        addToast({ title: 'Erro', description: errorMessage, type: 'error' });
+        return;
+      }
+
       Object.assign(
         data,
         { local },
@@ -140,35 +144,52 @@ const Dashboard: React.FC = () => {
         { indicadores: selectedIndicadores },
       );
 
-      await api
-        .post('relatorio', {
+      setLoading(true);
+      try {
+        await api.post('relatorio', {
           cpf,
           data,
-        })
-        .then(() => {
-          // const k = res.config.data;
-          console.log('sucess');
-        })
-        .catch(err => {
-          setErro(true);
-          console.log(err.config.data);
         });
+
+        addToast({
+          title: 'Sucesso',
+          description: 'Ocorrencia criada com sucesso',
+          type: 'success',
+        });
+      } catch {
+        addToast({
+          title: 'Erro',
+          description: 'Oops',
+          type: 'error',
+        });
+      }
+      setLoading(false);
     },
-    [cpf, desfecho, ocorrencia, opm, selectedIndicadores, selectedLocal],
+    [
+      addToast,
+      cpf,
+      desfecho,
+      ocorrencia,
+      opm,
+      selectedIndicadores,
+      selectedLocal,
+    ],
   );
 
-  async function isFiscal() {
-    const data = await api
-      .post('fiscais', {
-        cpf,
-      })
-      .then(res => setShowValidar(res.data));
-    return data;
-  }
-
   useEffect(() => {
-    isFiscal();
-  });
+    api
+      .post('fiscais')
+      .then(resposta => {
+        setShowValidar(resposta.data.isFiscal);
+      })
+      .catch(() => {
+        addToast({
+          title: 'Erro',
+          description: 'Oops, erro na verificacao de fiscal',
+          type: 'error',
+        });
+      });
+  }, [addToast, cpf]);
 
   const mapResponseToValuesAndLabels = (data: {
     id: any;
@@ -220,14 +241,6 @@ const Dashboard: React.FC = () => {
     // console.log(selectedIndicadores);
   };
 
-  function refreshPage() {
-    window.location.reload();
-  }
-
-  function openModal() {
-    setOpen(true);
-  }
-
   const listar = () => {
     history.push('/validar');
   };
@@ -243,7 +256,7 @@ const Dashboard: React.FC = () => {
                 <FiList />
               </button>
             ) : null}
-            <button type="button" onClick={signOut}>
+            <button type="button" onClick={() => signOut()}>
               <FiPower />
             </button>
           </div>
@@ -301,7 +314,7 @@ const Dashboard: React.FC = () => {
                     <AsyncSelect
                       {...field}
                       cacheOptions
-                      placeholder="Local"
+                      placeholder="Pesquise ..."
                       loadOptions={loadCidade}
                       onChange={handelLocalChange}
                       defaultOptions
@@ -369,7 +382,7 @@ const Dashboard: React.FC = () => {
                       {...field}
                       cacheOptions
                       isMulti
-                      placeholder="Indicadores"
+                      placeholder="Pesquise ..."
                       loadOptions={loadIndicadores}
                       onChange={handelIndicadorChange}
                       defaultOptions
@@ -444,40 +457,10 @@ const Dashboard: React.FC = () => {
               name="desfecho"
             />
 
-            <Button onClick={openModal} type="submit">
+            <Button disabled={loading} type="submit">
               Enviar
             </Button>
           </Form>
-
-          <Modal isOpen={open} style={customStyles}>
-            {erro ? (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}
-              >
-                <img
-                  style={{
-                    marginBottom: 10,
-                  }}
-                  src={notOkImg}
-                  width={100}
-                  alt="ok"
-                />
-                <TextCard className="modal">{`${errorMsg}`}</TextCard>
-              </div>
-            ) : (
-              <img
-                style={{ display: 'flex' }}
-                src={okImg}
-                width={100}
-                alt="ok"
-              />
-            )}
-            <Button onClick={refreshPage}>OK</Button>
-          </Modal>
         </Schedule>
       </Content>
     </Container>
