@@ -96,7 +96,7 @@ const Dashboard: React.FC = () => {
 
   const [selectedLocal, setSelectedLocal] = useState<localInicial | null>();
   const [selectedIndicadores, setSelectedIndicadores] = useState<
-    localInicial[]
+    localInicial[] | null
   >();
 
   const [opm, selectedOpm] = useState<string | null>();
@@ -156,6 +156,7 @@ const Dashboard: React.FC = () => {
           description: 'Ocorrencia criada com sucesso',
           type: 'success',
         });
+        window.location.reload();
       } catch {
         addToast({
           title: 'Erro',
