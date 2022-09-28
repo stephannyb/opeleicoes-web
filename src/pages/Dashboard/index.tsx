@@ -160,7 +160,8 @@ const Dashboard: React.FC = () => {
       } catch {
         addToast({
           title: 'Erro',
-          description: 'Oops',
+          description:
+            'Oops, erro ao cadastrar ocorrência, tente novamente em alguns instantes',
           type: 'error',
         });
       }
