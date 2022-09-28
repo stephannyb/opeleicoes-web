@@ -1,6 +1,6 @@
 import { shade } from 'polished';
 import styled, { keyframes } from 'styled-components';
-import SignInBackgroundImg from '../../assets/sign-in-background.png';
+import SignInBackgroundImg from '../../assets/sign-in-background.webp';
 
 export const Container = styled.div`
   height: 100vh;
@@ -81,4 +81,8 @@ export const Background = styled.div`
   flex: 1;
   background: url(${SignInBackgroundImg}) no-repeat center;
   background-size: cover;
+
+  @media (max-width: 992px) {
+    display: block;
+  }
 `;

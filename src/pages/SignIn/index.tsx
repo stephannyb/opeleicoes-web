@@ -66,7 +66,7 @@ const SignIn: React.FC = () => {
     <Container>
       <Content>
         <AnimatedContainer>
-          <img src={logoImg} width={250} alt="eleições2022" />
+          <img src={logoImg} width={250} height={250} alt="eleições2022" />
           <Form onSubmit={handlesubmit} ref={formRef}>
             <h1>Entrar</h1>
 
