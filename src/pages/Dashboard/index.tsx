@@ -284,7 +284,7 @@ const Dashboard: React.FC = () => {
                 };
                 return (
                   <div>
-                    <strong>OPM* :</strong>
+                    <strong>OPM da ocorrência* :</strong>
                     <Select
                       value={opm}
                       options={options2}
