@@ -81,7 +81,13 @@ const SignIn: React.FC = () => {
 
             <Button type="submit">Entrar</Button>
 
-            {/* <Link to="forgot-password">Esqueci minha senha</Link> */}
+            <a
+              // eslint-disable-next-line react/jsx-no-target-blank
+              target="_blank"
+              href="http://www2.agendamento.pm.rn.gov.br/reset-senha/index.php?action=sendtoken"
+            >
+              Esqueci minha senha
+            </a>
           </Form>
           {/* <Link to="/signup">
             <FiLogIn size={20} />
