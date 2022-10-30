@@ -175,7 +175,7 @@ const Listar: React.FC = () => {
                 <TextCard className="modal">{`${erro}`}</TextCard>
               ) : (
                 <TextCard className="modal">
-                  {`${ocorrencia?.st_postograduacao} ${ocorrencia?.st_nomeguerra} - ${ocorrencia?.st_telefonecelular}`}
+                  {`${ocorrencia?.st_postograduacaosigla} ${ocorrencia?.st_nomeguerra} - ${ocorrencia?.st_telefonecelular}`}
                 </TextCard>
               )}
               <Button className="close" onClick={() => setModalIsOpen(false)}>
