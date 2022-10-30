@@ -41,7 +41,7 @@ interface ItemsOcorrencia {
   opm_id: string;
   st_matricula: string;
   st_nomeguerra: string;
-  st_postograduacao: string;
+  st_postograduacaosigla: string;
   st_telefonecelular: string;
   status: string;
   tipo_id: string;
