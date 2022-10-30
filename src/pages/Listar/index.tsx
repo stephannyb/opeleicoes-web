@@ -41,7 +41,7 @@ interface ItemsOcorrencia {
   opm_id: string;
   st_matricula: string;
   st_nomeguerra: string;
-  st_postograduacaosigla: string;
+  st_postograduacao: string;
   st_telefonecelular: string;
   status: string;
   tipo_id: string;
@@ -175,7 +175,7 @@ const Listar: React.FC = () => {
                 <TextCard className="modal">{`${erro}`}</TextCard>
               ) : (
                 <TextCard className="modal">
-                  {`${ocorrencia?.st_postograduacaosigla} ${ocorrencia?.st_nomeguerra} - ${ocorrencia?.st_telefonecelular}`}
+                  {`${ocorrencia?.st_postograduacao} ${ocorrencia?.st_nomeguerra} - ${ocorrencia?.st_telefonecelular}`}
                 </TextCard>
               )}
               <Button className="close" onClick={() => setModalIsOpen(false)}>
