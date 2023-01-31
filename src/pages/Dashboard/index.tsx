@@ -46,36 +46,20 @@ const options2 = [
 ];
 
 const options6 = [
-  { value: 'Boca de Urna', label: 'Boca de Urna' },
-  {
-    value: 'Transporte Ilegal de Eleitores',
-    label: 'Transporte Ilegal de Eleitores',
-  },
-  { value: 'Compra de Votos', label: 'Compra de Votos' },
-  { value: 'Propaganda Ilegal', label: 'Propaganda Ilegal' },
-  {
-    value: 'Integrante da Mesa com Camisa de Partido',
-    label: 'Integrante da Mesa com Camisa de Partido',
-  },
-  { value: 'Apreensão de Material', label: 'Apreensão de Material' },
-  { value: 'Celular em Urna', label: 'Celular em Urna' },
-  { value: 'Desordem', label: 'Desordem' },
-  { value: 'Desacato', label: 'Desacato' },
-  { value: 'Desobediencia', label: 'Desobediência' },
-  { value: 'Porte Ilegal de Arma', label: 'Porte Ilegal de Arma' },
+  { value: 'Furto', label: 'Furto' },
+  { value: 'Roubo', label: 'Roubo' },
+  { value: 'Vias de Fato', label: 'Vias de Fato' },
+  { value: 'Homicidio', label: 'Homicidio' },
   { value: 'Outros', label: 'Outro' },
 ];
 
 const options7 = [
   { value: 'Conduzido a Delegacia', label: 'Conduzido a Delegacia' },
-  {
-    value: 'Conduzido ao Juiz Eleitoral',
-    label: 'Conduzido ao Juiz Eleitoral',
-  },
   { value: 'Prisão em Flagrante', label: 'Prisão em Flagrante' },
   { value: 'Resolvido no Local', label: 'Resolvido no Local' },
   { value: 'Outro', label: 'Outro' },
 ];
+
 interface localInicial {
   value: string;
   label: string;
